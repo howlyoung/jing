@@ -1,0 +1,53 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: yanghao
+ * Date: 2019/6/11
+ * Time: 10:06
+ */
+
+namespace app\controllers;
+
+
+use app\modelex\JingAccessEx;
+use app\modelex\JingUserEx;
+
+class JingAccessController extends AppController
+{
+
+    public function actionIndex() {
+        $request = \Yii::$app->request;
+        $token = $request->get('token');
+
+    }
+
+    public function actionCreate() {
+        if(!JingUserEx::checkLogin($this->token)) {
+            return '请登录';
+        }
+
+        $user = $this->getUser();
+        $request = \Yii::$app->request;
+        $name = $request->post('name');
+        $mobile = $request->post('mobile');
+        $type = $request->post('type');
+        $desc = $request->post('desc');
+        $solution = $request->post('solution');
+        $business = $request->post('business');
+
+        $access = new JingAccessEx();
+        $access->user_id = $user->id;
+        $access->name = $name;
+        $access->mobile = $mobile;
+        $access->user_type = $type;
+        $access->user_demand_desc = $desc;
+        $access->user_business = $business;
+        $access->solution = $solution;
+        $access->save();
+
+        $user->setStatus(JingUserEx::STATUS_INITIAL);
+
+        return $this->respone(['code'=>1,'data'=>['userStatus'=>$user->status]]);
+    }
+
+}
