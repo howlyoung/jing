@@ -20,23 +20,23 @@ class JingApplyController extends AppController
     public $enableCsrfValidation = false;
 
     public function actionCreate() {
-        if(!JingUserEx::checkLogin($this->token)) {
-            return $this->respone(['code'=>-1]);
-        }
-
-        $name = $this->request->post('name');
-        $mobile = $this->request->post('mobile');
+        $bankCode = $this->request->post('bankCode');
+        $bankCard = $this->request->post('bankCard');
+        $creditNo = $this->request->post('creditNo');
         $imgName = $this->request->post('imgName');
 
-        $model = JingApplyEx::loadByMobile($mobile);
+        $user = $this->getUser();
+        $model = JingApplyEx::loadByUserId($user->id);
 
         if(empty($model)) {
             $model = new JingApplyEx();
-            $model->name = $name;
-            $model->mobile = $mobile;
-            $model->save();
         }
 
+        $model->bank_code = $bankCode;
+        $model->bank_card = $bankCard;
+        $model->credit_no = $creditNo;
+        $model->dt_update = date('Y-m-d H:i:s',time());
+        $model->save();
 
         $upload = new Upload();
         $upload->imageFile = UploadedFile::getInstanceByName('imageFile');
@@ -48,6 +48,17 @@ class JingApplyController extends AppController
         }
     }
 
+    public function actionGetApply() {
+        $user = $this->getUser();
+
+        $model = JingApplyEx::loadByUserId($user->id);
+        if(!empty($model)) {
+            return $this->respone(['code'=>1,'data'=>$model->getFields()]);
+        } else {
+            return $this->respone(['code'=>1,'data'=>'']);
+        }
+    }
+
     /**
      * @param $name
      * @return mixed
@@ -56,9 +67,9 @@ class JingApplyController extends AppController
         $arr = [
             'argeement' => 'three_agreement',
             'agent' => 'entrust_agent',
-            'id_card_u' => 'id_card',
-            'id_card_d' => '',
-            'current' => 'true_photo',
+            'id_card_u' => 'id_card_u',
+            'id_card_d' => 'id_card_d',
+            'current' => 'scene_photo',
             'passport' => 'bus_passport',
         ];
         return $arr[$name];

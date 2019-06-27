@@ -14,8 +14,13 @@ use Yii;
  * @property int $user_type 客户类型 0 个人 1 公司 2 其他
  * @property string $user_demand_desc 客户需求描述
  * @property string $solution 当前开票解决方案
- * @property string $user_business '客户业务
+ * @property string $relation 客户与发票需求方关系
+ * @property string $user_business 客户业务
  * @property int $status
+ * @property string $marker_channel 推广渠道
+ * @property string $referrer 推荐人
+ * @property string $dt_create 创建时间
+ * @property string $dt_update 更新时间
  */
 class JingAccess extends \yii\db\ActiveRecord
 {
@@ -34,8 +39,10 @@ class JingAccess extends \yii\db\ActiveRecord
     {
         return [
             [['user_id', 'user_type', 'status'], 'integer'],
+            [['dt_create', 'dt_update'], 'safe'],
             [['name', 'mobile'], 'string', 'max' => 32],
-            [['user_demand_desc', 'solution', 'user_business'], 'string', 'max' => 128],
+            [['user_demand_desc', 'solution', 'relation', 'user_business', 'marker_channel'], 'string', 'max' => 128],
+            [['referrer'], 'string', 'max' => 30],
         ];
     }
 
@@ -52,8 +59,13 @@ class JingAccess extends \yii\db\ActiveRecord
             'user_type' => '客户类型 0 个人 1 公司 2 其他',
             'user_demand_desc' => '客户需求描述',
             'solution' => '当前开票解决方案',
-            'user_business' => '\'客户业务',
+            'relation' => '客户与发票需求方关系',
+            'user_business' => '客户业务',
             'status' => 'Status',
+            'marker_channel' => '推广渠道',
+            'referrer' => '推荐人',
+            'dt_create' => '创建时间',
+            'dt_update' => '更新时间',
         ];
     }
 

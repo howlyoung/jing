@@ -83,75 +83,75 @@ $this->registerCss($cssString);
                 }
             ],
             [
-                'attribute' => '个体户名称',
+                'attribute' => '用户Id',
                 'value' => function($data) {
-                    return $data->person_name;
+                    return $data->user_id;
                 }
             ],
             [
-                'attribute' => 'ticket_content',
+                'attribute' => '抬头',
                 'value' => function($data) {
-                    return $data->ticket_content;
+                    return $data->ticket_title;
                 }
             ],
             [
-                'attribute' => '发票类型',
+                'attribute' => '识别号',
                 'value' => function($data) {
-                    return $data->getStatusName();
+                    return $data->ticket_code;
                 }
             ],
             [
-                'attribute' => '业务类型',
+                'attribute' => '接受方式',
                 'value' => function($data) {
-                    return $data->bus_type;
+                    return $data->receive_type;
                 }
             ],
             [
-                'attribute' => '个体户名称',
-                'value' => function($data){
-                    return $data->person_name;
+                'attribute' => '快递地址',
+                'value' => function($data) {
+                    return $data->address;
                 }
             ],
             [
-                'attribute' => '业务范围',
+                'attribute' => '收件人',
                 'value' => function($data){
-                    return $data->bus_range;
+                    return $data->addressee;
                 }
             ],
             [
-                'attribute' => '银行卡号',
+                'attribute' => '收件人手机',
                 'value' => function($data){
-                    return $data->bank_card;
+                    return $data->addressee_mobile;
                 }
             ],
             [
-                'attribute' => '开户行',
+                'attribute' => '打款凭证',
                 'value' => function($data){
-                    return $data->bank_code;
+                    return $data->amount_bill;
                 }
             ],
             [
-                'attribute' => '社会信用代码',
+                'attribute' => '服务费凭证',
                 'value' => function($data){
-                    return $data->credit_no;
+                    return $data->service_bill;
                 }
             ],
             [
                 'class' => 'yii\grid\ActionColumn',
                 'header' => '操作',
-                'template' => '{confirm} | {select}',
+                'template' => '{confirm}',
                 'headerOptions' => ['width' => '160'],
                 'buttons' => [
                     'confirm' => function($url,$model,$key) {
                         if($model->status == 0) {
                             return Html::a('<i class="fa fa-ban"></i> 确认',
-                                ['admin-apply/ajax-confirm','id'=>$key],['data'=>['confirm' =>'是否确认']]);
+                                ['admin-ticket/ajax-confirm','id'=>$key],['data'=>['confirm' =>'是否确认']]);
                         }
                     },
-                    'select' => function($url,$model,$key) {
-                        return Html::a('<i class="fa fa-ban"></i> 编辑',
-                            ['admin-apply/update','id'=>$key]);
-                    },
+//                    'select' => function($url,$model,$key) {
+//                        return Html::a('<i class="fa fa-ban"></i> 编辑',
+//                            ['admin-apply/update','id'=>$key]);
+//                    },
                 ],
             ],
         ],
@@ -192,31 +192,31 @@ $this->registerCss($cssString);
 <!--<!-- Modal-->-->
 
 <script type="application/javascript">
-//    var getBomData = function ()
-//    {
-//        var from = $('#modalForm');
-//        $.ajax({
-//            url:"<?php //echo \yii\helpers\Url::to(['dishes/validate-form']);?>//",
-//            type:'post',
-//            data: from.serialize(),
-//            success:function(data) {
-//                $('#respone').html(data);
-//            }
-//        });
-//    }
-//
-//    $('#myModal').on('show.bs.modal', function (event) {
-//        var button = $(event.relatedTarget) // Button that triggered the modal
-//        var recipient = button.data('whatever') // Extract info from data-* attributes
-//
-//        var modal = $(this)
-//        var bomId = modal.find('#sourceBomId');//.val(recipient);
-//
-//        if(bomId.val() != recipient) {
-//            modal.find('#respone').html('');
-//        }
-//        bomId.val(recipient);
+    //    var getBomData = function ()
+    //    {
+    //        var from = $('#modalForm');
+    //        $.ajax({
+    //            url:"<?php //echo \yii\helpers\Url::to(['dishes/validate-form']);?>//",
+    //            type:'post',
+    //            data: from.serialize(),
+    //            success:function(data) {
+    //                $('#respone').html(data);
+    //            }
+    //        });
+    //    }
+    //
+    //    $('#myModal').on('show.bs.modal', function (event) {
+    //        var button = $(event.relatedTarget) // Button that triggered the modal
+    //        var recipient = button.data('whatever') // Extract info from data-* attributes
+    //
+    //        var modal = $(this)
+    //        var bomId = modal.find('#sourceBomId');//.val(recipient);
+    //
+    //        if(bomId.val() != recipient) {
+    //            modal.find('#respone').html('');
+    //        }
+    //        bomId.val(recipient);
 
-//        modal.find('.modal-body input').val(recipient)
-//    })
+    //        modal.find('.modal-body input').val(recipient)
+    //    })
 </script>

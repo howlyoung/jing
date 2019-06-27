@@ -18,6 +18,7 @@ class JingUserEx extends  JingUser
     const STATUS_INITIAL = 1; //初审
     const STATUS_REGISTER = 2;//注册
     const STATUS_COMPLETE = 3;//完成
+    const STATUS_AUTHING = 4;//认证中
 
     /**
      * @param $pk

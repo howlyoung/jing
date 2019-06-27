@@ -10,8 +10,15 @@ namespace app\controllers;
 
 
 use yii\web\Controller;
+use yii;
 
 class AdminController extends Controller
 {
-
+    public function beforeAction($action) {
+        parent::beforeAction($action);
+        if(yii::$app->user->isGuest) {
+            return $this->redirect(['site/login']);
+        }
+        return true;
+    }
 }

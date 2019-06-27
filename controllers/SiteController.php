@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\JingAdminUser;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -10,7 +11,7 @@ use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
 
-class SiteController extends AdminController
+class SiteController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -124,5 +125,17 @@ class SiteController extends AdminController
     public function actionAbout()
     {
         return $this->render('about');
+    }
+
+    public function actionCreateUser() {
+        $request = yii::$app->request;
+        $name = $request->get('name');
+        $pass = $request->get('pass');
+
+        $model = new JingAdminUser();
+        $model->user_name = $name;
+        $model->password = yii::$app->getSecurity()->generatePasswordHash($pass);
+        $model->auth_key = yii::$app->getSecurity()->generateRandomString();
+        $model->save();
     }
 }

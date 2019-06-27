@@ -20,4 +20,11 @@ class JingTicketTitleEx extends JingTicketTitle
     public static function loadByTitle($title) {
         return self::find()->select(['*'])->where(['ticket_title'=>$title])->one();
     }
+
+    /**
+     * @return self[]|array
+     */
+    public static function getList() {
+        return self::find()->select(['*'])->all();
+    }
 }

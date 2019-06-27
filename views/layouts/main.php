@@ -44,7 +44,7 @@ AppAsset::register($this);
     <?php
     $session = yii::$app->session;
     NavBar::begin([
-        'brandLabel' => '不二街菜品管理系统',
+        'brandLabel' => '京师爷后台',
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
             'class' => 'navbar-inverse navbar-fixed-top',
@@ -54,9 +54,7 @@ AppAsset::register($this);
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
             ['label' => 'Home', 'url' => ['/site/index']],
-//            ['label' => 'About', 'url' => ['/site/about']],
-//            ['label' => 'Contact', 'url' => ['/site/contact']],
-            ['label' => '选店', 'url' => ['/site/select-merchant']],
+
             Yii::$app->user->isGuest ? (
             ['label' => '登录', 'url' => ['/site/login']]
             ) : (
@@ -82,35 +80,21 @@ AppAsset::register($this);
                     'id' => 'navigation',
                     'items' => [
                         [
-                            'label' => '菜品管理',
+                            'label' => '申请管理',
                             'items' => [
-                                ['label' => '分类列表','url'=> \yii\helpers\Url::to(['dishes-category/index']),'controller'=>'dishes-category','action'=>'index'],
-                                ['label' => '菜品列表','url'=> \yii\helpers\Url::to(['dishes-bom/index']),'controller'=>'dishes-bom','action'=>'index'],
+                                ['label' => '申请列表','url'=> \yii\helpers\Url::to(['admin-access/index']),'controller'=>'admin-access','action'=>'index'],
                             ],
                         ],
                         [
-                            'label' => '原料管理',
+                            'label' => '注册管理',
                             'items' => [
-                                ['label' => '分类列表','url'=> \yii\helpers\Url::to(['material-category/index']),'controller'=>'material-category','action'=>'index'],
-                                ['label' => '原料列表','url'=> \yii\helpers\Url::to(['material/index']),'controller'=>'material','action'=>'index'],
+                                ['label' => '注册申请列表','url'=> \yii\helpers\Url::to(['admin-apply/index']),'controller'=>'admin-apply','action'=>'index'],
                             ],
                         ],
                         [
-                            'label' => '厨师管理',
+                            'label' => '发票管理',
                             'items' => [
-                                ['label' => '厨师列表','url'=> \yii\helpers\Url::to(['cooker/index']),'controller'=>'cooker','action'=>'index'],
-                            ],
-                        ],
-                        [
-                            'label' => '采购管理',
-                            'items' => [
-                                ['label' => '采购列表','url'=> \yii\helpers\Url::to(['buy/index']),'controller'=>'buy','action'=>'index'],
-                            ],
-                        ],
-                        [
-                            'label' => '标签管理',
-                            'items' => [
-                                ['label' => '标签列表','url'=> \yii\helpers\Url::to(['tag/index']),'controller'=>'tag','action'=>'index'],
+                                ['label' => '发票列表','url'=> \yii\helpers\Url::to(['admin-ticket/index']),'controller'=>'admin-ticket','action'=>'index'],
                             ],
                         ],
                     ],
@@ -131,7 +115,7 @@ AppAsset::register($this);
 
 <footer class="footer">
     <div class="container">
-        <p class="pull-left">&copy; 不二街 <?= date('Y') ?></p>
+        <p class="pull-left">&copy; 京师爷 <?= date('Y') ?></p>
 
         <p class="pull-right"><?= Yii::powered() ?></p>
     </div>

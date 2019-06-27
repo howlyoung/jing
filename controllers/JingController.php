@@ -16,6 +16,14 @@ class JingController extends AppController
 
     public $enableCsrfValidation = false;
 
+    public function beforeAction($action) {
+        if($action->id != 'login') {
+            return parent::beforeAction($action);
+        } else {
+            return true;
+        }
+    }
+
     public function actionIndex() {
         if(!JingUserEx::checkLogin($this->token)) {
             return $this->respone(['code'=>-1,'msg'=>'需要登录']);
@@ -31,7 +39,8 @@ class JingController extends AppController
     }
 
     public function actionLogin() {
-        $code = $this->request->get('code');
+        $request = \Yii::$app->request;
+        $code = $request->get('code');
         $service = \Yii::$app->weixin;
 
         $res = $service->loginByCode($code);
@@ -65,5 +74,11 @@ class JingController extends AppController
             $user = $this->getUser();
             return $this->respone(['code'=>1,'data'=>['userStatus'=>$user->status]]);
         }
+    }
+
+    public function actionAuth() {
+        $user = $this->getUser();
+        $user->setStatus(JingUserEx::STATUS_COMPLETE);
+        return $this->respone(['code'=>1,'data'=>['userStatus'=>$user->status]]);
     }
 }

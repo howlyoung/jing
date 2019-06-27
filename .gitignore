@@ -11,7 +11,7 @@ nbproject
 
 # windows thumbnail cache
 Thumbs.db
-
+/web
 # composer vendor dir
 /vendor
 # yii config

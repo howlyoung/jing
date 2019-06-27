@@ -34,6 +34,7 @@ class JingAccessController extends AppController
         $desc = $request->post('desc');
         $solution = $request->post('solution');
         $business = $request->post('business');
+        $relation = $request->post('relation');
 
         $access = new JingAccessEx();
         $access->user_id = $user->id;
@@ -43,6 +44,9 @@ class JingAccessController extends AppController
         $access->user_demand_desc = $desc;
         $access->user_business = $business;
         $access->solution = $solution;
+        $access->relation = $relation;
+        $access->dt_create = date('Y-m-d H:i:s',time());
+        $access->dt_update = date('Y-m-d H:i:s',time());
         $access->save();
 
         $user->setStatus(JingUserEx::STATUS_INITIAL);
