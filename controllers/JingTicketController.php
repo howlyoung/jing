@@ -90,7 +90,8 @@ class JingTicketController extends AppController
     }
 
     public function actionGetTitle() {
-        $list = JingTicketTitleEx::getList();
+        $user = $this->getUser();
+        $list = JingTicketTitleEx::getListByUid($user->id);
         $result = [];
         foreach($list as $title) {
             $tmp['title'] = $title->ticket_title;

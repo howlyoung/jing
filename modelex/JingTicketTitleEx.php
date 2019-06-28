@@ -27,4 +27,12 @@ class JingTicketTitleEx extends JingTicketTitle
     public static function getList() {
         return self::find()->select(['*'])->all();
     }
+
+    /**
+     * @param $uid
+     * @return \app\models\JingTicketTitle[]|array
+     */
+    public static function getListByUid($uid) {
+        return self::find()->select(['*'])->where(['user_id'=>$uid])->all();
+    }
 }
