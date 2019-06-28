@@ -93,7 +93,7 @@ class AdminApplyController extends AdminController
             $model->confirm();
             $user->setStatus(JingUserEx::STATUS_AUTHING); //改变用户状态
 
-            return json_encode(['code'=>1]);
+            return $this->redirect(['admin-apply/index']);
         }
     }
 
@@ -101,19 +101,44 @@ class AdminApplyController extends AdminController
         $request = \Yii::$app->request;
 
         $id = $request->get('id');
-        $model = JingApplyEx::loadByPk($id);
+        $m = JingApplyEx::loadByPk($id);
         $dfFile = tempnam('tmp','tmp');
         $zip = new ZipFile();
-        $filename = 'image.zip';
+        $filename = 'data.zip';
 
-        $images = [
-            [
-                'image_src' => $model->three_agreement, 'image_name' => '123.jpg'
-            ],
-            [
-                'image_src' => $model->entrust_agent, 'image_name' => '456.jpg'
-            ],
-        ];
+//        $images = [
+//            [
+//                'image_src' => $model->three_agreement, 'image_name' => '123.jpg'
+//            ],
+//            [
+//                'image_src' => $model->entrust_agent, 'image_name' => '456.jpg'
+//            ],
+//        ];
+        if(empty($m)) {
+            $list = JingApplyEx::getListByStatus();
+        } else {
+            $list = [$m];
+        }
+        $images = [];
+        foreach($list as $model) {
+            $imgArr = $model->getImageRes();
+            foreach($imgArr as $ik => $path) {
+                if(!empty($path)) {
+                    $images[] = [
+                        'image_src' => $path, 'image_name' => $model->id.'_'.$ik.'.jpg'
+                    ];
+                }
+            }
+        }
+//        $imgArr = $model->getImageRes();
+//
+//        foreach($imgArr as $ik => $path) {
+//            if(!empty($path)) {
+//                $images[] = [
+//                    'image_src' => $path, 'image_name' => $model->id.'_'.$ik.'.jpg'
+//                ];
+//            }
+//        }
 
         foreach($images as $image) {
             $zip->add_file(file_get_contents($image['image_src']),$image['image_name']);
@@ -121,12 +146,14 @@ class AdminApplyController extends AdminController
         $delimiter = ',';
         $arr = [];
 
-        $list = JingApplyEx::getListByStatus();
+//        $list = JingApplyEx::getListByStatus();
 
-        $arr[] = '="个人户名称"';
+        $arr[] = '="个体户名称"';
         $arr[] = $delimiter . '="行业类别"';
         $arr[] = $delimiter . '="经营范围"';
         $arr[] = $delimiter . '="发票内容"';
+        $arr[] = $delimiter . '="银行卡号"';
+        $arr[] = $delimiter . '="开户行"';
         $arr[] = $delimiter . '="状态"';
         $arr[] = $delimiter . '="创建时间"';
         $arr[] = "\n";
@@ -135,6 +162,9 @@ class AdminApplyController extends AdminController
             $arr[] = '="' . $apply->person_name . '"';
             $arr[] = $delimiter.'="' . $apply->bus_type . '"';
             $arr[] = $delimiter .'="' .$apply->bus_range . '"';
+            $arr[] = $delimiter .'="' . $apply->ticket_content . '"';
+            $arr[] = $delimiter .'="' . $apply->bank_card . '"';
+            $arr[] = $delimiter .'="' . $apply->bank_code . '"';
             $arr[] = $delimiter .'="' . $apply->getStatusName() . '"';
             $arr[] = $delimiter .'="' . $apply->dt_create . '"';
             $arr[] = "\n";

@@ -72,6 +72,11 @@ $this->registerCss($cssString);
 <!--    </div>-->
 <!--</div>-->
 
+<?php
+echo Html::a('导出',['admin-ticket/export'],['class'=>'btn btn-default col-sm-4']);
+?>
+<hr>
+
 <?php if(isset($list)):?>
     <?php echo GridView::widget([
         'dataProvider' => $provider,

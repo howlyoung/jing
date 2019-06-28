@@ -68,8 +68,23 @@ class JingApplyEx extends JingApply
             'current' => !empty($this->scene_photo)?$host.$this->scene_photo:'',
             'passport' => !empty($this->bus_passport)?$host.$this->bus_passport:'',
             'bankCard' => $this->bank_card,
-            'creditNo' => $this->credit_no,
+//            'creditNo' => $this->credit_no,
             'bankCode' => $this->bank_code,
+        ];
+    }
+
+    /**
+     * 获取图片资源
+     * @return array
+     */
+    public function getImageRes() {
+        return [
+            'argeement' => !empty($this->three_agreement)?$this->three_agreement:'',
+            'agent' => !empty($this->entrust_agent)?$this->entrust_agent:'',
+            'id_card_u' => !empty($this->id_card_u)?$this->id_card_u:'',
+            'id_card_d' => !empty($this->id_card_d)?$this->id_card_d:'',
+            'current' => !empty($this->scene_photo)?$this->scene_photo:'',
+            'passport' => !empty($this->bus_passport)?$this->bus_passport:'',
         ];
     }
 
@@ -84,11 +99,23 @@ class JingApplyEx extends JingApply
     /**
      * @return string
      */
-    public function getStatusName() {
+    public function getTypeName() {
         $arr = [
             self::TYPE_COMMON => '普票',
             self::TYPE_SPECIAL => '专票',
         ];
         return array_key_exists($this->ticket_type,$arr)?$arr[$this->ticket_type]:'异常';
+    }
+
+    /**
+     * @return string
+     */
+    public function getStatusName() {
+        $arr = [
+            self::STATUS_WAIT => '审核中',
+            self::STATUS_FIRST_PASS => '通过',
+            self::STATUS_FIRST_FAIL => '未通过',
+        ];
+        return array_key_exists($this->status,$arr)?$arr[$this->status]:'异常';
     }
 }

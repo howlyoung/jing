@@ -72,6 +72,10 @@ $this->registerCss($cssString);
 <!--    </div>-->
 <!--</div>-->
 
+        <?php
+        echo Html::a('导出',['admin-apply/export'],['class'=>'btn btn-default col-sm-4']);
+        ?>
+<hr>
 <?php if(isset($list)):?>
     <?php echo GridView::widget([
         'dataProvider' => $provider,
@@ -97,7 +101,7 @@ $this->registerCss($cssString);
             [
                 'attribute' => '发票类型',
                 'value' => function($data) {
-                    return $data->getStatusName();
+                    return $data->getTypeName();
                 }
             ],
             [
@@ -131,26 +135,28 @@ $this->registerCss($cssString);
                 }
             ],
             [
-                'attribute' => '社会信用代码',
+                'attribute' => '状态',
                 'value' => function($data){
-                    return $data->credit_no;
+                    return $data->getStatusName();
                 }
             ],
             [
                 'class' => 'yii\grid\ActionColumn',
                 'header' => '操作',
-                'template' => '{confirm} | {select}',
+                'template' => '{confirm}  {select}',
                 'headerOptions' => ['width' => '160'],
                 'buttons' => [
                     'confirm' => function($url,$model,$key) {
-                        if($model->status == 0) {
+                        if($model->status == \app\modelex\JingApplyEx::STATUS_WAIT) {
                             return Html::a('<i class="fa fa-ban"></i> 确认',
                                 ['admin-apply/ajax-confirm','id'=>$key],['data'=>['confirm' =>'是否确认']]);
                         }
                     },
                     'select' => function($url,$model,$key) {
-                        return Html::a('<i class="fa fa-ban"></i> 编辑',
-                            ['admin-apply/update','id'=>$key]);
+//                        if($model->status == \app\modelex\JingApplyEx::STATUS_WAIT) {
+                            return Html::a('<i class="fa fa-ban"></i> 编辑',
+                                ['admin-apply/update','id'=>$key]);
+//                        }
                     },
                 ],
             ],

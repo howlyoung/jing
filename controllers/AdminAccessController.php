@@ -49,7 +49,7 @@ class AdminAccessController extends AdminController
             $apply->person_name = $model->name;
             $apply->user_id = $user->id;
             $apply->save();
-            return json_encode(['code'=>1]);
+            return $this->redirect(['admin-access/index']);
         }
     }
 }
