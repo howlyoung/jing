@@ -22,9 +22,15 @@ class AdminTicketController extends AdminController
 
         $list = JingTicketEx::getListByStatus();
 
-        $query = JingTicketEx::find()->select(['*'])->where('1=1');
+        $data['status'] = $request->get('status');
+        $data['name'] = $request->get('name');
 
+        $query = $this->getQuery($data);
+        $query->orderBy([
+            'dt_create' => SORT_DESC
+        ]);
         $data['list'] = $list;
+        $data['statusList'] = JingTicketEx::getStatusList();
         $data['provider'] = new ActiveDataProvider([
                 'query' => $query,
                 'pagination' => [
@@ -32,28 +38,56 @@ class AdminTicketController extends AdminController
                 ]
             ]
         );
-//        $data['typeList'] = [
-//            '普通' => 0,
-//            '专票' => 1,
-//        ];
+
 
         return $this->render('index',$data);
+    }
+
+    /**
+     * @param $params
+     * @return $this
+     */
+    protected function getQuery($params) {
+        $query = JingTicketEx::find()->select(['*'])->join('LEFT JOIN','jing_apply','jing_apply.user_id=jing_ticket.user_id')->where('1=1');
+
+        if(!empty($params['name'])) {
+            $query->andWhere(['like','jing_apply.person_name',$params['name']]);
+        }
+
+        if(!empty($params['status'])) {
+            $query->andWhere(['status'=>$params['name']]);
+        }
+        return $query;
+    }
+
+
+    public function actionAjaxConfirm() {
+        $request = \Yii::$app->request;
+        $id = $request->get('id');
+
+        $model = JingTicketEx::loadByPk($id);
+        if(empty($model)) {
+            return json_encode(['code'=>-1,'msg'=>'申请不存在']);
+        } else {
+            $model->confirm();
+
+            return $this->redirect(['admin-ticket/index']);
+        }
     }
 
     public function actionExport() {
         $request = \Yii::$app->request;
 
-        $id = $request->get('id');
-        $m = JingTicketEx::loadByPk($id);
+
+        $param['status'] = $request->get('status');
+        $param['name'] = $request->get('name');
+
         $dfFile = tempnam('tmp','tmp');
         $zip = new ZipFile();
         $filename = 'ticket.zip';
 
-        if(empty($m)) {
-            $list = JingTicketEx::getListByStatus();
-        } else {
-            $list = [$m];
-        }
+        $query = $this->getQuery($param);
+        $list = $query->all();
         $images = [];
         foreach($list as $model) {
             $imgArr = $model->getImageRes();

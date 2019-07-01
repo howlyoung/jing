@@ -21,11 +21,15 @@ class AdminApplyController extends AdminController
     public function actionIndex() {
         $request = \Yii::$app->request;
 
-        $list = JingApplyEx::getListByStatus();
+        $data['name'] = $request->get('name');
+        $data['status'] = $request->get('status');
 
-        $query = JingApplyEx::find()->select(['*'])->where('1=1');
-
-        $data['list'] = $list;
+        $query = $this->getQuery($data);
+        $query->orderBy([
+            'dt_create' => SORT_DESC
+        ]);
+        $data['list'] = $query->all();
+        $data['statusList'] = JingApplyEx::getStatusList();
         $data['provider'] = new ActiveDataProvider([
                 'query' => $query,
                 'pagination' => [
@@ -33,11 +37,6 @@ class AdminApplyController extends AdminController
                 ]
             ]
         );
-//        $data['typeList'] = [
-//            '普通' => 0,
-//            '专票' => 1,
-//        ];
-
         return $this->render('index',$data);
     }
 
@@ -54,6 +53,19 @@ class AdminApplyController extends AdminController
                 '专票',
             ]
         ]);
+    }
+
+    protected function getQuery($params) {
+        $query = JingApplyEx::find()->select(['*'])->where('1=1');
+
+        if(!empty($params['name'])) {
+            $query->andWhere(['like','person_name',$params['name']]);
+        }
+
+        if(!empty($params['status'])) {
+            $query->andWhere(['status'=>$params['name']]);
+        }
+        return $query;
     }
 
     public function actionDoUpdate() {
@@ -100,25 +112,15 @@ class AdminApplyController extends AdminController
     public function actionExport() {
         $request = \Yii::$app->request;
 
-        $id = $request->get('id');
-        $m = JingApplyEx::loadByPk($id);
         $dfFile = tempnam('tmp','tmp');
         $zip = new ZipFile();
         $filename = 'data.zip';
 
-//        $images = [
-//            [
-//                'image_src' => $model->three_agreement, 'image_name' => '123.jpg'
-//            ],
-//            [
-//                'image_src' => $model->entrust_agent, 'image_name' => '456.jpg'
-//            ],
-//        ];
-        if(empty($m)) {
-            $list = JingApplyEx::getListByStatus();
-        } else {
-            $list = [$m];
-        }
+        $data['name'] = $request->get('name');
+        $data['status'] = $request->get('status');
+
+        $query = $this->getQuery($data);
+        $list = $query->all();
         $images = [];
         foreach($list as $model) {
             $imgArr = $model->getImageRes();

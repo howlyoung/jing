@@ -118,4 +118,15 @@ class JingApplyEx extends JingApply
         ];
         return array_key_exists($this->status,$arr)?$arr[$this->status]:'异常';
     }
+
+    /**
+     * @return array
+     */
+    public static function getStatusList() {
+        return [
+            self::STATUS_WAIT => '审核中',
+            self::STATUS_FIRST_PASS => '通过',
+            self::STATUS_FIRST_FAIL => '未通过',
+        ];
+    }
 }

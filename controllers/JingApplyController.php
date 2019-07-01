@@ -22,7 +22,6 @@ class JingApplyController extends AppController
     public function actionCreate() {
         $bankCode = $this->request->post('bankCode');
         $bankCard = $this->request->post('bankCard');
-//        $creditNo = $this->request->post('creditNo');
         $imgName = $this->request->post('imgName');
 
         $user = $this->getUser();
@@ -34,7 +33,6 @@ class JingApplyController extends AppController
 
         $model->bank_code = $bankCode;
         $model->bank_card = $bankCard;
-//        $model->credit_no = $creditNo;
         $model->dt_update = date('Y-m-d H:i:s',time());
         $model->save();
 
@@ -46,6 +44,8 @@ class JingApplyController extends AppController
             $model->$filed = $path;
             $model->save();
         }
+
+        return $this->respone(['code'=>1]);
     }
 
     public function actionGetApply() {

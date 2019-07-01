@@ -15,6 +15,9 @@ class JingAccessEx extends JingAccess
 {
     const STATUS_EXAMINE = 0;   //审核中
     const STATUS_CONFIRM = 1;   //通过
+
+    const TYPE_PERSON = 0;  //个人客户
+    const TYPE_COMPANY = 1; //企业客户
     /**
      * @param string $status
      * @return \self[]|array
@@ -39,11 +42,29 @@ class JingAccessEx extends JingAccess
      * @return string
      */
     public function getStatusName() {
-        $arr = [
+        $arr = self::getStatusList();
+        return array_key_exists($this->status,$arr)?$arr[$this->status]:'异常';
+    }
+
+    /**
+     * @return array
+     */
+    public static function getStatusList() {
+        return [
             self::STATUS_CONFIRM => '通过',
             self::STATUS_EXAMINE => '审核中',
         ];
-        return in_array($this->status,$arr)?$arr[$this->status]:'异常';
+    }
+
+    /**
+     * @return string
+     */
+    public function getTypeName() {
+        $arr = [
+            self::TYPE_COMPANY => '企业客户',
+            self::TYPE_PERSON => '个人客户',
+        ];
+        return array_key_exists($this->user_type,$arr)?$arr[$this->user_type]:'异常';
     }
 
     /**

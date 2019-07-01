@@ -19,6 +19,9 @@ class JingTicketEx extends JingTicket
 
     const TYPE_COMMON = 0;
     const TYPE_SPECIAL = 1;
+
+    const MODE_ELE = 0;
+    const MODE_POST = 1;
     /**
      * @param $title
      * @return $this
@@ -83,8 +86,45 @@ class JingTicketEx extends JingTicket
      */
     public function getImageRes() {
         return [
-            'service_bill' => !empty($this->three_agreement)?$this->service_bill:'',
-            'amount_bill' => !empty($this->entrust_agent)?$this->amount_bill:'',
+            'service_bill' => !empty($this->service_bill)?$this->service_bill:'',
+            'amount_bill' => !empty($this->amount_bill)?$this->amount_bill:'',
         ];
+    }
+
+    /**
+     * @return array
+     */
+    public static function getStatusList() {
+        return [
+            self::STATUS_WAIT => '等待开票',
+            self::STATUS_COMPLETE => '已开',
+        ];
+    }
+
+    /**
+     * @return string
+     */
+    public function getPersonName() {
+        $apply = JingApplyEx::loadByUserId($this->user_id);
+        return empty($apply)?'':$apply->person_name;
+    }
+
+    /**
+     * @return array
+     */
+    public function getMode() {
+        $arr =  [
+            self::MODE_ELE => '电子',
+            self::MODE_POST => '快递'
+        ];
+        return array_key_exists($this->receive_type,$arr)?$arr[$this->receive_type]:'异常';
+    }
+
+    /**
+     *
+     */
+    public function confirm(){
+        $this->status = self::STATUS_COMPLETE;
+        $this->save();
     }
 }
