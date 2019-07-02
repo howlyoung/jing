@@ -16,6 +16,7 @@ class JingApplyEx extends JingApply
     const STATUS_WAIT = 0;  //待审核
     const STATUS_FIRST_PASS = 1;    //初审通过
     const STATUS_FIRST_FAIL = 2;    //不通过
+    const STATUS_COMPLETE = 3;      //完成
 
     const TYPE_COMMON = 0;  //普通票
     const TYPE_SPECIAL = 1; //专票
@@ -93,6 +94,14 @@ class JingApplyEx extends JingApply
      */
     public function confirm() {
         $this->status = self::STATUS_FIRST_PASS;
+        $this->save();
+    }
+
+    /**
+     *
+     */
+    public function complete() {
+        $this->status = self::STATUS_COMPLETE;
         $this->save();
     }
 

@@ -107,7 +107,7 @@ $this->registerCss($cssString);
             [
                 'class' => 'yii\grid\ActionColumn',
                 'header' => '操作',
-                'template' => '{confirm}  {select}',
+                'template' => '{confirm}  {select} {complete}',
                 'headerOptions' => ['width' => '160'],
                 'buttons' => [
                     'confirm' => function($url,$model,$key) {
@@ -121,6 +121,13 @@ $this->registerCss($cssString);
                             return Html::a('<i class="fa fa-ban"></i> 编辑',
                                 ['admin-apply/update','id'=>$key]);
 //                        }
+                    },
+                    'complete' => function($url,$model,$key) {
+                        $user = \app\modelex\JingUserEx::loadByPk($model->user_id);
+                        if($user->status == \app\modelex\JingUserEx::STATUS_USER_CONFIRM) {
+                        return Html::a('<i class="fa fa-ban"></i> 完成',
+                            ['admin-apply/ajax-complete','id'=>$key]);
+                        }
                     },
                 ],
             ],

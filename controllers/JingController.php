@@ -78,7 +78,7 @@ class JingController extends AppController
 
     public function actionAuth() {
         $user = $this->getUser();
-        $user->setStatus(JingUserEx::STATUS_COMPLETE);
+        $user->setStatus(JingUserEx::STATUS_USER_CONFIRM);
         return $this->respone(['code'=>1,'data'=>['userStatus'=>$user->status]]);
     }
 }

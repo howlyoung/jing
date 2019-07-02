@@ -109,6 +109,22 @@ class AdminApplyController extends AdminController
         }
     }
 
+    public function actionAjaxComplete() {
+        $request = \Yii::$app->request;
+        $id = $request->get('id');
+
+        $model = JingApplyEx::loadByPk($id);
+        $user = JingUserEx::loadByPk($model->user_id);
+        if(empty($model)) {
+            return json_encode(['code'=>-1,'msg'=>'申请不存在']);
+        } else {
+            $model->complete();
+            $user->setStatus(JingUserEx::STATUS_COMPLETE); //改变用户状态
+
+            return $this->redirect(['admin-apply/index']);
+        }
+    }
+
     public function actionExport() {
         $request = \Yii::$app->request;
 
