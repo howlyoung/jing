@@ -18,6 +18,12 @@ $this->registerCssFile("@web/css/jquery-ui.css");
     <input type="hidden" name="id" id="applyId" value="<?php echo $model->id;?>">
     <input type="hidden" name="access_id" id="accessId" value="<?php echo $access->id;?>">
     <div class="row show-grid">
+        <label class="col-sm-2 control-label" for="dishesName">姓名</label>
+        <div class="col-xs-4">
+            <input  class="form-control" name="access_name" value="<?php echo empty($access)?'':$access->name;?>" " />
+        </div>
+    </div>
+    <div class="row show-grid">
         <label class="col-sm-2 control-label" for="dishesName">手机号</label>
         <div class="col-xs-4">
             <input  class="form-control" name="access_mobile" value="<?php echo empty($access)?'':$access->mobile;?>" " />

@@ -83,7 +83,8 @@ class AdminApplyController extends AdminController
         $accessId = $request->post('access_id');
         $access = JingAccessEx::loadByPk($accessId);
 
-        $access->name = $request->post('access_mobile');
+        $access->name = $request->post('access_name');
+        $access->mobile = $request->post('access_mobile');
         $access->user_demand_desc = $request->post('access_desc');
         $access->solution = $request->post('access_solution');
         $access->relation = $request->post('access_relation');
