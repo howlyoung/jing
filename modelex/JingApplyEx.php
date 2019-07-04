@@ -69,8 +69,12 @@ class JingApplyEx extends JingApply
             'current' => !empty($this->scene_photo)?$host.$this->scene_photo:'',
             'passport' => !empty($this->bus_passport)?$host.$this->bus_passport:'',
             'bankCard' => $this->bank_card,
-//            'creditNo' => $this->credit_no,
             'bankCode' => $this->bank_code,
+            'ticketContent' => $this->ticket_content,
+            'ticketType' => $this->getTypeName(),
+            'busRange' => $this->bus_range,
+            'busType' => $this->bus_type,
+            'personName' => $this->person_name,
         ];
     }
 

@@ -9,6 +9,7 @@
 namespace app\controllers;
 
 
+use app\lib\tools\CashUtil;
 use app\modelex\JingTicketEx;
 use app\modelex\JingTicketTitleEx;
 use app\modelex\JingUserEx;
@@ -37,7 +38,7 @@ class JingTicketController extends AppController
             $ticketTitle = JingTicketTitleEx::loadByTitle($title);
             $model->ticket_title = $title;
             $model->ticket_code = $ticketTitle->ticket_code;
-            $model->ticket_amount = $amount;
+            $model->ticket_amount = CashUtil::toSaveFmt($amount);
             $model->user_id = $user->id;
             $model->address = $expressAddress;
             $model->addressee_mobile = $consigneeMobile;

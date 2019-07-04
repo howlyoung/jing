@@ -108,7 +108,7 @@ $this->registerCss($cssString);
 //                    },
                     'confirm' => function($url,$model,$key) {
                         if($model->status == 0) {
-                            return Html::a('<i class="fa fa-ban"></i> 确认',
+                            return Html::a('<i class="fa fa-ban"></i> 审核',
                                 ['admin-access/ajax-confirm','id'=>$key],['data'=>['confirm' =>'是否确认']]);
                         }
 

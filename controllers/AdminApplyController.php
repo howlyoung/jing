@@ -10,6 +10,7 @@ namespace app\controllers;
 
 
 use app\lib\tools\ZipFile;
+use app\modelex\JingAccessEx;
 use app\modelex\JingApplyEx;
 use app\modelex\JingUserEx;
 use app\models\Upload;
@@ -46,8 +47,14 @@ class AdminApplyController extends AdminController
         $id = $request->get('id');
         $model = JingApplyEx::loadByPk($id);
 
+        $access = JingAccessEx::loadByUid($model->user_id);
+        $user = JingUserEx::loadByPk($model->user_id);
+        $showApplyFlag = ($user->status == JingUserEx::STATUS_INITIAL?true:false);
+
         return $this->render('update',[
             'model' => $model,
+            'access'=> $access,
+            'showApplyFlag' => $showApplyFlag,
             'typeList' => [
                 '普通',
                 '专票',
@@ -70,16 +77,27 @@ class AdminApplyController extends AdminController
 
     public function actionDoUpdate() {
         $request = \Yii::$app->request;
-
         $id = $request->post('id');
-        $model = JingApplyEx::loadByPk($id);
+        $flag = $request->post('apply');
 
+        $accessId = $request->post('access_id');
+        $access = JingAccessEx::loadByPk($accessId);
+
+        $access->name = $request->post('access_mobile');
+        $access->user_demand_desc = $request->post('access_desc');
+        $access->solution = $request->post('access_solution');
+        $access->relation = $request->post('access_relation');
+        $access->user_business = $request->post('access_business');
+        $access->referrer = $request->post('access_referrer');
+        $access->marker_channel = $request->post('access_channel');
+        $access->save();
+
+        $model = JingApplyEx::loadByPk($id);
         $model->ticket_content = $request->post('ticketContent');
         $model->person_name = $request->post('personName');
         $model->ticket_type = $request->post('type');
         $model->bus_type = $request->post('busType');
         $model->bus_range = $request->post('busRange');
-
         $model->save();
 
         $upload = new Upload();
@@ -88,6 +106,11 @@ class AdminApplyController extends AdminController
         if($path = $upload->upload()) {
             $model->bus_passport = $path;
             $model->save();
+        }
+        if($flag) {
+            //修改状态
+            $user = JingUserEx::loadByPk($model->user_id);
+            $user->setStatus(JingUserEx::STATUS_REGISTER); //改变用户状态
         }
 
         return $this->redirect(['admin-apply/update','id'=>$id]);

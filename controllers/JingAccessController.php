@@ -31,10 +31,12 @@ class JingAccessController extends AppController
         $name = $request->post('name');
         $mobile = $request->post('mobile');
         $type = $request->post('type');
-        $desc = $request->post('desc');
-        $solution = $request->post('solution');
-        $business = $request->post('business');
-        $relation = $request->post('relation');
+        $desc = $request->post('desc','');
+        $solution = $request->post('solution','');
+        $business = $request->post('business','');
+        $relation = $request->post('relation','');
+        $extend = $request->post('extend','');
+        $extendChannel = $request->post('extendChannel','');
 
         $access = new JingAccessEx();
         $access->user_id = $user->id;
@@ -45,6 +47,8 @@ class JingAccessController extends AppController
         $access->user_business = $business;
         $access->solution = $solution;
         $access->relation = $relation;
+        $access->referrer = $extend;
+        $access->marker_channel = $extendChannel;
         $access->dt_create = date('Y-m-d H:i:s',time());
         $access->dt_update = date('Y-m-d H:i:s',time());
         $access->save();

@@ -15,7 +15,60 @@ $this->registerCssFile("@web/css/jquery-ui.css");
 
 <div class="row show-grid">
     <?php echo Html::beginForm(Url::to(['admin-apply/do-update']),'post',['id'=>'updateForm','role' => 'form','class'=>'form-horizontal','enctype'=>'multipart/form-data'])?>
-    <input type="hidden" name="id" value="<?php echo $model->id;?>">
+    <input type="hidden" name="id" id="applyId" value="<?php echo $model->id;?>">
+    <input type="hidden" name="access_id" id="accessId" value="<?php echo $access->id;?>">
+    <div class="row show-grid">
+        <label class="col-sm-2 control-label" for="dishesName">手机号</label>
+        <div class="col-xs-4">
+            <input  class="form-control" name="access_mobile" value="<?php echo empty($access)?'':$access->mobile;?>" " />
+        </div>
+    </div>
+    <div class="row show-grid">
+        <label class="col-sm-2 control-label" for="dishesName">客户类型</label>
+        <div class="col-xs-4">
+            <input  class="form-control" disabled="true" value="<?php echo empty($access)?'':$access->getTypeName();?>"  />
+        </div>
+    </div>
+    <div class="row show-grid">
+        <label class="col-sm-2 control-label" for="dishesName">需求描述</label>
+        <div class="col-sm-10">
+            <textarea class="form-control" rows="3" cols="20" name="access_desc" ><?php echo empty($access)?'':$access->user_demand_desc;?></textarea>
+        </div>
+    </div>
+    <div class="row show-grid">
+        <label class="col-sm-2 control-label" for="dishesName">解决方案</label>
+        <div class="col-sm-10">
+            <textarea class="form-control" rows="3" cols="20" name="access_solution" ><?php echo empty($access)?'':$access->solution;?></textarea>
+        </div>
+    </div>
+    <div class="row show-grid">
+        <label class="col-sm-2 control-label" for="dishesName">供需关系</label>
+        <div class="col-sm-10">
+            <textarea class="form-control" rows="3" cols="20" name="access_relation" ><?php echo empty($access)?'':$access->relation;?></textarea>
+        </div>
+    </div>
+    <div class="row show-grid">
+        <label class="col-sm-2 control-label" for="dishesName">客户业务</label>
+        <div class="col-sm-10">
+            <textarea class="form-control" rows="3" cols="20" name="access_business" ><?php echo empty($access)?'':$access->user_business;?></textarea>
+        </div>
+    </div>
+    <div class="row show-grid">
+        <label class="col-sm-2 control-label" for="dishesName">推广人</label>
+        <div class="col-xs-4">
+            <input  class="form-control" name="access_referrer" value="<?php echo empty($access)?'':$access->referrer;?>"  />
+        </div>
+    </div>
+    <div class="row show-grid">
+        <label class="col-sm-2 control-label" for="dishesName">推广渠道</label>
+        <div class="col-xs-4">
+            <input  class="form-control" name="access_channel" value="<?php echo empty($access)?'':$access->marker_channel;?>"  />
+        </div>
+    </div>
+
+
+
+
     <div class="row show-grid">
         <label class="col-sm-2 control-label" for="dishesName">个体户名称</label>
         <div class="col-xs-4">
@@ -64,6 +117,13 @@ $this->registerCssFile("@web/css/jquery-ui.css");
             echo Html::button('更新', ['class' => 'btn btn-default','onclick' => 'checkSubmit()']);
             ?>
         </div>
+        <?php if($showApplyFlag):?>
+        <div class="col-xs-4">
+            <?php
+            echo Html::button('更新并通过', ['class' => 'btn btn-default','onclick' => 'apply()']);
+            ?>
+        </div>
+        <?php endif;?>
     </div>
     <?php
     echo Html::endForm();
@@ -75,6 +135,13 @@ $this->registerCssFile("@web/css/jquery-ui.css");
         $('#updateForm').submit();
 
     };
+
+    var apply = function() {
+        var form = $('#updateForm');
+        var input = $("<input type='hidden' name='apply' value='1' />");
+        form.append(input);
+        form.submit();
+    }
 //    var checkImgType = function() {
 //        var type = $('#selectImageType').val();
 //        if(type=='micro_shop') {

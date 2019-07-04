@@ -27,7 +27,7 @@ class AdminTicketController extends AdminController
 
         $query = $this->getQuery($data);
         $query->orderBy([
-            'dt_create' => SORT_DESC
+            'jing_ticket.dt_create' => SORT_DESC
         ]);
         $data['list'] = $list;
         $data['statusList'] = JingTicketEx::getStatusList();

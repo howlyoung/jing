@@ -19,7 +19,7 @@ AppAsset::register($this);
     <meta charset="<?= Yii::$app->charset ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?= Html::csrfMetaTags() ?>
-    <title><?= Html::encode($this->title)."菜品管理系统" ?></title>
+    <title><?= Html::encode($this->title)."京师爷" ?></title>
     <?php $this->head() ?>
     <style type="text/css">
         .submenu a {

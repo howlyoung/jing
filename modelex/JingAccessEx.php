@@ -39,6 +39,14 @@ class JingAccessEx extends JingAccess
     }
 
     /**
+     * @param $uid
+     * @return JingAccess|array|null
+     */
+    public static function loadByUid($uid) {
+        return self::find()->select(['*'])->where(['user_id'=>$uid])->one();
+    }
+
+    /**
      * @return string
      */
     public function getStatusName() {
