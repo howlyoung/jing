@@ -84,16 +84,21 @@ class AdminApplyController extends AdminController
         $accessId = $request->post('access_id');
         $access = JingAccessEx::loadByPk($accessId);
 
-        $access->name = $request->post('access_name');
-        $access->mobile = $request->post('access_mobile');
-        $access->user_demand_desc = $request->post('access_desc');
-        $access->solution = $request->post('access_solution');
-        $access->relation = $request->post('access_relation');
-        $access->user_business = $request->post('access_business');
-        $access->referrer = $request->post('access_referrer');
-        $access->marker_channel = $request->post('access_channel');
-        $access->user_type = $request->post('access_type');
-        $access->save();
+        $accessFlag = $request->post('access_mobile');
+
+        if($accessFlag) {
+            $access->name = $request->post('access_name');
+            $access->mobile = $request->post('access_mobile');
+            $access->user_demand_desc = $request->post('access_desc');
+            $access->solution = $request->post('access_solution');
+            $access->relation = $request->post('access_relation');
+            $access->user_business = $request->post('access_business');
+            $access->referrer = $request->post('access_referrer');
+            $access->marker_channel = $request->post('access_channel');
+            $access->user_type = $request->post('access_type');
+            $access->save();
+        }
+
 
         $model = JingApplyEx::loadByPk($id);
         $model->ticket_content = $request->post('ticketContent');
