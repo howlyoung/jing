@@ -50,12 +50,15 @@ class AdminApplyController extends AdminController
         $access = JingAccessEx::loadByUid($model->user_id);
         $user = JingUserEx::loadByPk($model->user_id);
         $showApplyFlag = ($user->status == JingUserEx::STATUS_INITIAL?true:false);
+        $showPassportFlag = (($user->status == JingUserEx::STATUS_AUTHING || $user->status == JingUserEx::STATUS_COMPLETE)?false:true);
 
         return $this->render('update',[
             'model' => $model,
             'access'=> $access,
             'accessTypeList' => JingAccessEx::getTypeList(),
             'showApplyFlag' => $showApplyFlag,
+            'showPassportFlag' => $showPassportFlag,
+            'image' => new Upload(),
             'typeList' => [
                 '普通',
                 '专票',

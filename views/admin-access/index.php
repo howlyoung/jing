@@ -108,8 +108,10 @@ $this->registerCss($cssString);
 //                    },
                     'confirm' => function($url,$model,$key) {
                         if($model->status == 0) {
-                            return Html::a('<i class="fa fa-ban"></i> 审核',
-                                ['admin-access/ajax-confirm','id'=>$key],['data'=>['confirm' =>'是否确认']]);
+//                            return Html::a('<i class="fa fa-ban"></i> 审核',
+//                                ['admin-access/ajax-confirm','id'=>$key],['data'=>['confirm' =>'是否确认']]);
+                            return Html::button('<i class="fa fa-ban"></i> 审核',
+                                ['onclick'=>'confirm("confirmBtn")','id'=>'confirmBtn','data-id'=>$key]);
                         }
                     },
                     'check' => function($url,$model,$key) {
@@ -133,6 +135,12 @@ $this->registerCss($cssString);
 <?php endif;?>
 
 <script type="application/javascript">
+    var confirm = function(id) {
+        var btn = $('#'+id);
+        btn.attr("disabled",true);
+        var aid = btn.attr('data-id');
+        window.location.href='<?php echo \yii\helpers\Url::to(['admin-access/ajax-confirm'])?>' + '&id='+ aid;
+    }
     //    var getBomData = function ()
     //    {
     //        var from = $('#modalForm');
@@ -159,5 +167,5 @@ $this->registerCss($cssString);
     //        bomId.val(recipient);
 
     //        modal.find('.modal-body input').val(recipient)
-    })
+//    })
 </script>

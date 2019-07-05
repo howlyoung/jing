@@ -151,6 +151,55 @@ $this->registerJsFile("@web/js/zoomify.min.js",['position'=>\yii\web\View::POS_B
     </div>
 
     <div class="row show-grid">
+        <label class="col-sm-2 control-label" for="images">图片</label>
+        <div class="col-sm-10">
+            <?php
+            echo \kartik\file\FileInput::widget([
+                'model' => $image,
+                'attribute' => 'imageFile[]',
+                'options' => ['multiple' => true],
+                'pluginOptions' => [
+                    'previewFileType' => 'image',
+//                    'initialPreview' => $imageList,
+//                    'initialPreviewConfig' => $imageListConfig,
+//                'uploadUrl' => yii\helpers\Url::toRoute(['/dishes-bom/async-image']),
+//                'uploadExtraData' => [
+//                    'dish_id' => $model->dishes_bom_id,
+//                ],
+//                'minFileCount' => 1,
+//                'maxFileCount' => 10,
+                    'initialPreviewAsData' => true,
+                    'showRemove' => false,
+                    'showUpload' => false,
+//                'minImageWidth' => 660,
+//                'maxImageWidth' => 660,
+//                'uploadAsync' => true,
+                    'fileActionSettings' => [
+                        'showZoom' => true,
+                        'showUpload' => true,
+                        'showRemove' => true,
+                    ],
+                ],
+                'pluginEvents' => [
+                    // 上传成功后的回调方法，需要的可查看data后再做具体操作，一般不需要设置
+                    "fileloaded" => "function (event, file, previewId, index, reader) {
+                    var img = new Image();
+                    img.src = reader.result;
+                    if(img.width != 660) {
+                        $('#submitFlag').val(0);
+                    } else {
+                        $('#submitFlag').val(1);
+                    }
+                    console.log(img.width);
+
+
+        }",
+                ],
+            ]);?>
+        </div>
+    </div>
+
+    <div class="row show-grid">
         <label class="col-sm-2 control-label" for="standard">营业执照</label>
         <div class="col-sm-10">
             <input type="file" id="" name="imageFile" value=""/>
@@ -164,11 +213,13 @@ $this->registerJsFile("@web/js/zoomify.min.js",['position'=>\yii\web\View::POS_B
             echo Html::button('更新', ['class' => 'btn btn-default','onclick' => 'checkSubmit()']);
             ?>
         </div>
+        <?php if($showPassportFlag):?>
         <div class="col-xs-4">
             <?php
             echo Html::button('营业执照已办理', ['class' => 'btn btn-default','onclick' => 'passport('. $model->id .')']);
             ?>
         </div>
+        <?php endif;?>
         <?php if($showApplyFlag):?>
         <div class="col-xs-4">
             <?php
