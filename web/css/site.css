@@ -113,3 +113,5 @@ a.desc:after {
 .nav > li > form > button.logout:focus {
     outline: none;
 }
+
+.thumb-img {width: auto;height: auto;max-width: 50%;max-height: 50%;}

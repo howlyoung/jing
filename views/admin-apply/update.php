@@ -8,8 +8,10 @@ use yii\widgets\Pjax;
 
 $this->registerCssFile("@web/css/bootstrap-tokenfield.min.css");
 $this->registerCssFile("@web/css/jquery-ui.css");
-//$this->registerJsFile("@web/js/jquery-ui.min.js",['position'=>\yii\web\View::POS_BEGIN]);
-//$this->registerJsFile("@web/js/bootstrap-tokenfield.js",['position'=>\yii\web\View::POS_BEGIN]);
+$this->registerCssFile("@web/css/zoomify.min.css");
+$this->registerCssFile("@web/css/site.css");
+$this->registerJsFile("@web/js/jquery.min.js",['position'=>\yii\web\View::POS_BEGIN]);
+$this->registerJsFile("@web/js/zoomify.min.js",['position'=>\yii\web\View::POS_BEGIN]);
 
 ?>
 
@@ -114,6 +116,41 @@ $this->registerCssFile("@web/css/jquery-ui.css");
     </div>
 
     <div class="row show-grid">
+        <label class="col-sm-2 control-label" for="standard">三方协议</label>
+        <div class="col-sm-10">
+            <img class="zoomify thumb-img" src="<?php echo empty($model)?'':$model->three_agreement;?>"/>
+        </div>
+    </div>
+
+    <div class="row show-grid">
+        <label class="col-sm-2 control-label" for="standard">委托代理证明</label>
+        <div class="col-sm-10">
+            <img class="zoomify thumb-img" src="<?php echo empty($model)?'':$model->entrust_agent;?>"/>
+        </div>
+    </div>
+
+    <div class="row show-grid">
+        <label class="col-sm-2 control-label" for="standard">身份证正面</label>
+        <div class="col-sm-10">
+            <img class="zoomify thumb-img" src="<?php echo empty($model)?'':$model->id_card_u;?>"/>
+        </div>
+    </div>
+
+    <div class="row show-grid">
+        <label class="col-sm-2 control-label" for="standard">身份证反面</label>
+        <div class="col-sm-10">
+            <img class="zoomify thumb-img" src="<?php echo empty($model)?'':$model->id_card_d;?>"/>
+        </div>
+    </div>
+
+    <div class="row show-grid">
+        <label class="col-sm-2 control-label" for="standard">现场照</label>
+        <div class="col-sm-10">
+            <img class="zoomify thumb-img" src="<?php echo empty($model)?'':$model->scene_photo;?>"/>
+        </div>
+    </div>
+
+    <div class="row show-grid">
         <label class="col-sm-2 control-label" for="standard">营业执照</label>
         <div class="col-sm-10">
             <input type="file" id="" name="imageFile" value=""/>
@@ -125,6 +162,11 @@ $this->registerCssFile("@web/css/jquery-ui.css");
         <div class="col-xs-4">
             <?php
             echo Html::button('更新', ['class' => 'btn btn-default','onclick' => 'checkSubmit()']);
+            ?>
+        </div>
+        <div class="col-xs-4">
+            <?php
+            echo Html::button('营业执照已办理', ['class' => 'btn btn-default','onclick' => 'passport('. $model->id .')']);
             ?>
         </div>
         <?php if($showApplyFlag):?>
@@ -140,6 +182,7 @@ $this->registerCssFile("@web/css/jquery-ui.css");
     ?>
 </div>
 <script type="application/javascript">
+    $('.zoomify').zoomify();
 
     var checkSubmit = function() {
         $('#updateForm').submit();
@@ -151,6 +194,10 @@ $this->registerCssFile("@web/css/jquery-ui.css");
         var input = $("<input type='hidden' name='apply' value='1' />");
         form.append(input);
         form.submit();
+    }
+
+    var passport = function(id) {
+        window.location.href = '<?php echo Url::to(['admin-apply/ajax-confirm'])?>' + '&id=' + id;
     }
 //    var checkImgType = function() {
 //        var type = $('#selectImageType').val();
