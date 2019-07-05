@@ -54,6 +54,7 @@ class AdminApplyController extends AdminController
         return $this->render('update',[
             'model' => $model,
             'access'=> $access,
+            'accessTypeList' => JingAccessEx::getTypeList(),
             'showApplyFlag' => $showApplyFlag,
             'typeList' => [
                 '普通',
@@ -91,6 +92,7 @@ class AdminApplyController extends AdminController
         $access->user_business = $request->post('access_business');
         $access->referrer = $request->post('access_referrer');
         $access->marker_channel = $request->post('access_channel');
+        $access->user_type = $request->post('access_type');
         $access->save();
 
         $model = JingApplyEx::loadByPk($id);

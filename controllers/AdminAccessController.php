@@ -82,7 +82,7 @@ class AdminAccessController extends AdminController
             $model->confirm();
 //            $user->setStatus(JingUserEx::STATUS_REGISTER); //改变用户状态
             $apply = new JingApplyEx();
-            $apply->person_name = $model->name;
+//            $apply->person_name = $model->name;
             $apply->user_id = $user->id;
             $apply->save();
             return $this->redirect(['admin-apply/update','id'=>$apply->id]);

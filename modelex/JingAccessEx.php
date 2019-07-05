@@ -59,7 +59,7 @@ class JingAccessEx extends JingAccess
      */
     public static function getStatusList() {
         return [
-            self::STATUS_CONFIRM => '通过',
+            self::STATUS_CONFIRM => '初审通过',
             self::STATUS_EXAMINE => '审核中',
         ];
     }
@@ -68,10 +68,7 @@ class JingAccessEx extends JingAccess
      * @return string
      */
     public function getTypeName() {
-        $arr = [
-            self::TYPE_COMPANY => '企业客户',
-            self::TYPE_PERSON => '个人客户',
-        ];
+        $arr = self::getTypeList();
         return array_key_exists($this->user_type,$arr)?$arr[$this->user_type]:'异常';
     }
 
@@ -81,5 +78,15 @@ class JingAccessEx extends JingAccess
     public function confirm() {
         $this->status = self::STATUS_CONFIRM;
         $this->save();
+    }
+
+    /**
+     * @return array
+     */
+    public static function getTypeList() {
+        return [
+            self::TYPE_COMPANY => '企业客户',
+            self::TYPE_PERSON => '个人客户',
+        ];
     }
 }

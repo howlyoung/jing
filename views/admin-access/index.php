@@ -67,25 +67,25 @@ $this->registerCss($cssString);
                 }
             ],
             [
-                'attribute' => '需求描述',
+                'attribute' => '遇到什么问题',
                 'value' => function($data){
                     return $data->user_demand_desc;
                 }
             ],
             [
-                'attribute' => '解决方案',
+                'attribute' => '如何解决的',
                 'value' => function($data){
                     return $data->solution;
                 }
             ],
             [
-                'attribute' => '供需关系',
+                'attribute' => '与客户之间的关系',
                 'value' => function($data){
                     return $data->relation;
                 }
             ],
             [
-                'attribute' => '客户业务',
+                'attribute' => '主要业务',
                 'value' => function($data){
                     return $data->user_business;
                 }
@@ -99,7 +99,7 @@ $this->registerCss($cssString);
             [
                 'class' => 'yii\grid\ActionColumn',
                 'header' => '操作',
-                'template' => '{confirm}',
+                'template' => '{confirm} {check}',
                 'headerOptions' => ['width' => '160'],
                 'buttons' => [
 //                    'select' => function($url,$model,$key) {
@@ -111,7 +111,12 @@ $this->registerCss($cssString);
                             return Html::a('<i class="fa fa-ban"></i> 审核',
                                 ['admin-access/ajax-confirm','id'=>$key],['data'=>['confirm' =>'是否确认']]);
                         }
-
+                    },
+                    'check' => function($url,$model,$key) {
+                        if($model->status == 1) {
+                            return Html::a('<i class="fa fa-ban"></i> 查看',
+                                ['admin-access/ajax-confirm','id'=>$key]);
+                        }
                     },
 //                    'copy' => function($url,$model,$key) {
 //                        if($model->checkIsStandard()) {

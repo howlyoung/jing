@@ -20,55 +20,60 @@ $this->registerCssFile("@web/css/jquery-ui.css");
     <div class="row show-grid">
         <label class="col-sm-2 control-label" for="dishesName">姓名</label>
         <div class="col-xs-4">
-            <input  class="form-control" name="access_name" value="<?php echo empty($access)?'':$access->name;?>" " />
+            <input  class="form-control" <?php echo ($showApplyFlag)?'':"disabled='true'" ?> name="access_name" value="<?php echo empty($access)?'':$access->name;?>" " />
         </div>
     </div>
     <div class="row show-grid">
         <label class="col-sm-2 control-label" for="dishesName">手机号</label>
         <div class="col-xs-4">
-            <input  class="form-control" name="access_mobile" value="<?php echo empty($access)?'':$access->mobile;?>" " />
+            <input  class="form-control" name="access_mobile" <?php echo ($showApplyFlag)?'':"disabled='true'" ?> value="<?php echo empty($access)?'':$access->mobile;?>" " />
         </div>
     </div>
     <div class="row show-grid">
         <label class="col-sm-2 control-label" for="dishesName">客户类型</label>
-        <div class="col-xs-4">
-            <input  class="form-control" disabled="true" value="<?php echo empty($access)?'':$access->getTypeName();?>"  />
+        <div class="col-xs-4" >
+            <?php
+            $attr = ['class'=>'form-control','prompt'=>'选择类型'];
+            if(!$showApplyFlag) {
+                $attr['disabled'] = 'true';
+            }
+            echo Html::dropDownList('access_type',(empty($access)?null:$access->user_type),$accessTypeList,$attr)?>
         </div>
     </div>
     <div class="row show-grid">
         <label class="col-sm-2 control-label" for="dishesName">需求描述</label>
         <div class="col-sm-10">
-            <textarea class="form-control" rows="3" cols="20" name="access_desc" ><?php echo empty($access)?'':$access->user_demand_desc;?></textarea>
+            <textarea class="form-control" rows="3"  cols="20" <?php echo ($showApplyFlag)?'':"disabled='true'" ?> name="access_desc" ><?php echo empty($access)?'':$access->user_demand_desc;?></textarea>
         </div>
     </div>
     <div class="row show-grid">
         <label class="col-sm-2 control-label" for="dishesName">解决方案</label>
         <div class="col-sm-10">
-            <textarea class="form-control" rows="3" cols="20" name="access_solution" ><?php echo empty($access)?'':$access->solution;?></textarea>
+            <textarea class="form-control" rows="3" cols="20" <?php echo ($showApplyFlag)?'':"disabled='true'" ?> name="access_solution" ><?php echo empty($access)?'':$access->solution;?></textarea>
         </div>
     </div>
     <div class="row show-grid">
         <label class="col-sm-2 control-label" for="dishesName">供需关系</label>
         <div class="col-sm-10">
-            <textarea class="form-control" rows="3" cols="20" name="access_relation" ><?php echo empty($access)?'':$access->relation;?></textarea>
+            <textarea class="form-control" rows="3" cols="20" <?php echo ($showApplyFlag)?'':"disabled='true'" ?> name="access_relation" ><?php echo empty($access)?'':$access->relation;?></textarea>
         </div>
     </div>
     <div class="row show-grid">
         <label class="col-sm-2 control-label" for="dishesName">客户业务</label>
         <div class="col-sm-10">
-            <textarea class="form-control" rows="3" cols="20" name="access_business" ><?php echo empty($access)?'':$access->user_business;?></textarea>
+            <textarea class="form-control" rows="3" cols="20" <?php echo ($showApplyFlag)?'':"disabled='true'" ?> name="access_business" ><?php echo empty($access)?'':$access->user_business;?></textarea>
         </div>
     </div>
     <div class="row show-grid">
         <label class="col-sm-2 control-label" for="dishesName">推广人</label>
         <div class="col-xs-4">
-            <input  class="form-control" name="access_referrer" value="<?php echo empty($access)?'':$access->referrer;?>"  />
+            <input  class="form-control" name="access_referrer" <?php echo ($showApplyFlag)?'':"disabled='true'" ?> value="<?php echo empty($access)?'':$access->referrer;?>"  />
         </div>
     </div>
     <div class="row show-grid">
         <label class="col-sm-2 control-label" for="dishesName">推广渠道</label>
         <div class="col-xs-4">
-            <input  class="form-control" name="access_channel" value="<?php echo empty($access)?'':$access->marker_channel;?>"  />
+            <input  class="form-control" name="access_channel" <?php echo ($showApplyFlag)?'':"disabled='true'" ?> value="<?php echo empty($access)?'':$access->marker_channel;?>"  />
         </div>
     </div>
 
@@ -92,7 +97,6 @@ $this->registerCssFile("@web/css/jquery-ui.css");
         <div class="col-xs-4">
             <?php echo Html::dropDownList('type',(empty($model)?null:$model->ticket_type),$typeList,['class'=>'form-control','prompt'=>'选择分类'])?>
         </div>
-
     </div>
 
     <div class="row show-grid">
