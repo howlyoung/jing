@@ -102,6 +102,20 @@ $this->registerJsFile("@web/js/zoomify.min.js",['position'=>\yii\web\View::POS_B
     </div>
 
     <div class="row show-grid">
+        <label class="col-sm-2 control-label" for="dishesName">银行卡号</label>
+        <div class="col-xs-4">
+            <input name="bankCard" class="form-control" value="<?php echo empty($model)?'':$model->bank_card;?>" id="dishesName" />
+        </div>
+    </div>
+
+    <div class="row show-grid">
+        <label class="col-sm-2 control-label" for="dishesName">开户行</label>
+        <div class="col-xs-4">
+            <input name="bankCode" class="form-control" value="<?php echo empty($model)?'':$model->bank_code;?>" id="dishesName" />
+        </div>
+    </div>
+
+    <div class="row show-grid">
         <label class="col-sm-2 control-label" for="standard">经营行业类别</label>
         <div class="col-sm-10">
             <textarea class="form-control" rows="3" cols="20" name="busType" id="sellPoint"><?php echo empty($model)?'':$model->bus_type;?></textarea>

@@ -49,14 +49,6 @@ class JingTicketController extends AppController
             $model->save();
         }
 
-//        $upload = new Upload();
-//        $upload->imageFile = UploadedFile::getInstanceByName('imageFile');
-//
-//        if($path = $upload->upload()) {
-//            $filed = $this->map($imgName);
-//            $model->$filed = $path;
-//            $model->save();
-//        }
         $model->saveRes($imgName, 'imageFile');
 
         return $this->respone(['code'=>1]);

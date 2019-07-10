@@ -20,8 +20,6 @@ class AdminTicketController extends AdminController
     public function actionIndex() {
         $request = \Yii::$app->request;
 
-        $list = JingTicketEx::getListByStatus();
-
         $data['status'] = $request->get('status');
         $data['name'] = $request->get('name');
 
@@ -29,7 +27,8 @@ class AdminTicketController extends AdminController
         $query->orderBy([
             'jing_ticket.dt_create' => SORT_DESC
         ]);
-        $data['list'] = $list;
+        $data['list'] = $query->all();
+
         $data['statusList'] = JingTicketEx::getStatusList();
         $data['provider'] = new ActiveDataProvider([
                 'query' => $query,
@@ -48,15 +47,16 @@ class AdminTicketController extends AdminController
      * @return $this
      */
     protected function getQuery($params) {
-        $query = JingTicketEx::find()->select(['*'])->join('LEFT JOIN','jing_apply','jing_apply.user_id=jing_ticket.user_id')->where('1=1');
+        $query = JingTicketEx::find()->select(['jing_ticket.*'])->join('LEFT JOIN','jing_apply','jing_apply.user_id=jing_ticket.user_id')->where('1=1');
 
         if(!empty($params['name'])) {
             $query->andWhere(['like','jing_apply.person_name',$params['name']]);
         }
 
         if(!empty($params['status'])) {
-            $query->andWhere(['status'=>$params['name']]);
+            $query->andWhere(['status'=>$params['status']]);
         }
+
         return $query;
     }
 

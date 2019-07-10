@@ -126,6 +126,8 @@ class AdminApplyController extends AdminController
         $model = JingApplyEx::loadByPk($id);
         $model->ticket_content = $request->post('ticketContent');
         $model->person_name = $request->post('personName');
+        $model->bank_code = $request->post('bankCode');
+        $model->bank_card = $request->post('bankCard');
         $model->ticket_type = $request->post('type');
         $model->bus_type = $request->post('busType');
         $model->bus_range = $request->post('busRange');
