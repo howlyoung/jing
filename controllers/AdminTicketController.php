@@ -42,6 +42,20 @@ class AdminTicketController extends AdminController
         return $this->render('index',$data);
     }
 
+    public function actionUpdate() {
+        $request = \Yii::$app->request;
+        $id = $request->get('id');
+
+        $model = JingTicketEx::loadByPk($id);
+        $data['model'] = $model;
+
+        return $this->render('update',$data);
+    }
+
+    public function actionDoUpdate() {
+
+    }
+
     /**
      * @param $params
      * @return $this
