@@ -10,6 +10,8 @@ namespace app\modelex;
 
 
 use app\models\JingTicket;
+use app\models\Upload;
+use yii\web\UploadedFile;
 
 class JingTicketEx extends JingTicket
 {
@@ -126,5 +128,20 @@ class JingTicketEx extends JingTicket
     public function confirm(){
         $this->status = self::STATUS_COMPLETE;
         $this->save();
+    }
+
+    /**
+     * @param $name
+     * @param $uploadName
+     * @return JingResourseEx|null
+     */
+    public function saveRes($name, $uploadName) {
+        $upload = new Upload();
+        $upload->imageFile = UploadedFile::getInstanceByName($uploadName);
+        if($path = $upload->upload()) {
+            return JingResourseEx::create(JingResourseEx::TYPE_TICKET, $this->id, $name, $path);
+        } else {
+            return null;
+        }
     }
 }

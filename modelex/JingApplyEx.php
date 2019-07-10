@@ -10,6 +10,8 @@ namespace app\modelex;
 
 
 use app\models\JingApply;
+use app\models\Upload;
+use yii\web\UploadedFile;
 
 class JingApplyEx extends JingApply
 {
@@ -62,12 +64,12 @@ class JingApplyEx extends JingApply
     public function getFields() {
         $host = \yii::$app->request->hostInfo.'/';
         return [
-            'argeement' => !empty($this->three_agreement)?$host.$this->three_agreement:'',
-            'agent' => !empty($this->entrust_agent)?$host.$this->entrust_agent:'',
-            'id_card_u' => !empty($this->id_card_u)?$host.$this->id_card_u:'',
-            'id_card_d' => !empty($this->id_card_d)?$host.$this->id_card_d:'',
-            'current' => !empty($this->scene_photo)?$host.$this->scene_photo:'',
-            'passport' => !empty($this->bus_passport)?$host.$this->bus_passport:'',
+            'argeement' => JingResourseEx::getPathByTypeAndNameAndReferId(JingResourseEx::TYPE_APPLY, JingResourseEx::NAME_THREE_AGREEMENT, $this->id),
+            'agent' => JingResourseEx::getPathByTypeAndNameAndReferId(JingResourseEx::TYPE_APPLY, JingResourseEx::NAME_ENTRUST_AGENT, $this->id),
+            'id_card_u' => JingResourseEx::getPathByTypeAndNameAndReferId(JingResourseEx::TYPE_APPLY, JingResourseEx::NAME_ID_CARD_U, $this->id),
+            'id_card_d' => JingResourseEx::getPathByTypeAndNameAndReferId(JingResourseEx::TYPE_APPLY, JingResourseEx::NAME_ID_CARD_D, $this->id),
+            'current' => JingResourseEx::getPathByTypeAndNameAndReferId(JingResourseEx::TYPE_APPLY, JingResourseEx::NAME_SCENE_PHOTO, $this->id),
+            'passport' => JingResourseEx::getPathByTypeAndNameAndReferId(JingResourseEx::TYPE_APPLY, JingResourseEx::NAME_BUS_PASSPORT, $this->id),
             'bankCard' => $this->bank_card,
             'bankCode' => $this->bank_code,
             'ticketContent' => $this->ticket_content,
@@ -75,6 +77,7 @@ class JingApplyEx extends JingApply
             'busRange' => $this->bus_range,
             'busType' => $this->bus_type,
             'personName' => $this->person_name,
+            'hostInfo' => $host,
         ];
     }
 
@@ -84,12 +87,12 @@ class JingApplyEx extends JingApply
      */
     public function getImageRes() {
         return [
-            'argeement' => !empty($this->three_agreement)?$this->three_agreement:'',
-            'agent' => !empty($this->entrust_agent)?$this->entrust_agent:'',
-            'id_card_u' => !empty($this->id_card_u)?$this->id_card_u:'',
-            'id_card_d' => !empty($this->id_card_d)?$this->id_card_d:'',
-            'current' => !empty($this->scene_photo)?$this->scene_photo:'',
-            'passport' => !empty($this->bus_passport)?$this->bus_passport:'',
+            'argeement' => JingResourseEx::loadAllByTypeAndNameAndReferId(JingResourseEx::TYPE_APPLY, JingResourseEx::NAME_THREE_AGREEMENT, $this->id),
+            'agent' => JingResourseEx::loadAllByTypeAndNameAndReferId(JingResourseEx::TYPE_APPLY, JingResourseEx::NAME_ENTRUST_AGENT, $this->id),
+            'id_card_u' => JingResourseEx::loadAllByTypeAndNameAndReferId(JingResourseEx::TYPE_APPLY, JingResourseEx::NAME_ID_CARD_U, $this->id),
+            'id_card_d' => JingResourseEx::loadAllByTypeAndNameAndReferId(JingResourseEx::TYPE_APPLY, JingResourseEx::NAME_ID_CARD_D, $this->id),
+            'current' => JingResourseEx::loadAllByTypeAndNameAndReferId(JingResourseEx::TYPE_APPLY, JingResourseEx::NAME_SCENE_PHOTO, $this->id),
+            'passport' => JingResourseEx::loadAllByTypeAndNameAndReferId(JingResourseEx::TYPE_APPLY, JingResourseEx::NAME_BUS_PASSPORT, $this->id),
         ];
     }
 
@@ -141,5 +144,29 @@ class JingApplyEx extends JingApply
             self::STATUS_FIRST_PASS => '通过',
             self::STATUS_FIRST_FAIL => '未通过',
         ];
+    }
+
+    /**
+     * @param $name
+     * @param $uploadName
+     * @return JingResourseEx|null
+     */
+    public function saveRes($name, $uploadName) {
+        $upload = new Upload();
+        $upload->imageFile = UploadedFile::getInstanceByName($uploadName);
+        if($path = $upload->upload()) {
+            return JingResourseEx::create(JingResourseEx::TYPE_APPLY, $this->id, $name, $path);
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * @param $name
+     * @param $path
+     * @return JingResourseEx|null
+     */
+    public function saveImage($name,$path) {
+        return JingResourseEx::create(JingResourseEx::TYPE_APPLY, $this->id, $name, $path);
     }
 }

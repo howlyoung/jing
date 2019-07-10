@@ -17,23 +17,38 @@ class Upload extends Model
      * @var UploadedFile
      */
     public $imageFile;
+    public $imageFiles;
 
     public function rules()
     {
         return [
             [['imageFile'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg'],
+            [['imageFiles'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg','maxFiles'=>9],
         ];
     }
 
     public function upload()
     {
-        if ($this->validate()) {
+        if ($this->validate('imageFile')) {
             $path = 'uploads/' . $this->getName($this->imageFile->baseName) . '.' . $this->imageFile->extension;
             $this->imageFile->saveAs($path);
             return $path;
         } else {
             return false;
         }
+    }
+
+    public function uploads() {
+        $pathArr = [];
+        if ($this->validate('imageFiles')) {
+            foreach($this->imageFiles as $file) {
+                $name = $this->getName($file->baseName);
+                $path = 'uploads/' . $name . '.' . $file->extension;
+                $file->saveAs($path);
+                $pathArr[] = $path;
+            }
+        }
+        return $pathArr;
     }
 
     protected function getName($name) {

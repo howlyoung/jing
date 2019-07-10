@@ -10,6 +10,7 @@ namespace app\controllers;
 
 
 use app\modelex\JingApplyEx;
+use app\modelex\JingResourseEx;
 use app\modelex\JingUserEx;
 use app\models\Upload;
 
@@ -20,8 +21,8 @@ class JingApplyController extends AppController
     public $enableCsrfValidation = false;
 
     public function actionCreate() {
-        $bankCode = $this->request->post('bankCode');
-        $bankCard = $this->request->post('bankCard');
+        $bankCode = $this->request->post('bankCode', '');
+        $bankCard = $this->request->post('bankCard', '');
         $imgName = $this->request->post('imgName');
 
         $user = $this->getUser();
@@ -31,19 +32,27 @@ class JingApplyController extends AppController
             $model = new JingApplyEx();
         }
 
-        $model->bank_code = $bankCode;
-        $model->bank_card = $bankCard;
+        if(!empty($bankCode)) {
+            $model->bank_code = $bankCode;
+        }
+
+        if(!empty($bankCard)) {
+            $model->bank_card = $bankCard;
+        }
         $model->dt_update = date('Y-m-d H:i:s',time());
         $model->save();
 
-        $upload = new Upload();
-        $upload->imageFile = UploadedFile::getInstanceByName('imageFile');
 
-        if($path = $upload->upload()) {
-            $filed = $this->map($imgName);
-            $model->$filed = $path;
-            $model->save();
-        }
+//        $upload = new Upload();
+//        $upload->imageFile = UploadedFile::getInstanceByName('imageFile');
+//
+//        if($path = $upload->upload()) {
+//            $filed = $this->map($imgName);
+//            $model->$filed = $path;
+//            $model->save();
+//        }
+
+        $model->saveRes($imgName, 'imageFile');
 
         return $this->respone(['code'=>1]);
     }
@@ -57,6 +66,16 @@ class JingApplyController extends AppController
         } else {
             return $this->respone(['code'=>1,'data'=>'']);
         }
+    }
+
+    public function actionDelImage() {
+        $id = $this->request->get('id');
+        $user = $this->getUser();
+        $img = JingResourseEx::loadByPk($id);
+        if(!empty($img)) {
+            $img->delete();
+        }
+        return $this->respone(['code'=>1]);
     }
 
     /**

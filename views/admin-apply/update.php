@@ -115,53 +115,55 @@ $this->registerJsFile("@web/js/zoomify.min.js",['position'=>\yii\web\View::POS_B
         </div>
     </div>
 
-    <div class="row show-grid">
-        <label class="col-sm-2 control-label" for="standard">三方协议</label>
-        <div class="col-sm-10">
-            <img class="zoomify thumb-img" src="<?php echo empty($model)?'':$model->three_agreement;?>"/>
-        </div>
-    </div>
 
+<!--    <div class="row show-grid">-->
+<!--        <label class="col-sm-2 control-label" for="standard">三方协议</label>-->
+<!--        <div class="col-sm-10">-->
+<!--            <img class="zoomify thumb-img" src="--><?php //echo empty($model)?'':$model->three_agreement;?><!--"/>-->
+<!--        </div>-->
+<!--    </div>-->
+<!---->
+<!--    <div class="row show-grid">-->
+<!--        <label class="col-sm-2 control-label" for="standard">委托代理证明</label>-->
+<!--        <div class="col-sm-10">-->
+<!--            <img class="zoomify thumb-img" src="--><?php //echo empty($model)?'':$model->entrust_agent;?><!--"/>-->
+<!--        </div>-->
+<!--    </div>-->
+<!---->
+<!--    <div class="row show-grid">-->
+<!--        <label class="col-sm-2 control-label" for="standard">身份证正面</label>-->
+<!--        <div class="col-sm-10">-->
+<!--            <img class="zoomify thumb-img" src="--><?php //echo empty($model)?'':$model->id_card_u;?><!--"/>-->
+<!--        </div>-->
+<!--    </div>-->
+<!---->
+<!--    <div class="row show-grid">-->
+<!--        <label class="col-sm-2 control-label" for="standard">身份证反面</label>-->
+<!--        <div class="col-sm-10">-->
+<!--            <img class="zoomify thumb-img" src="--><?php //echo empty($model)?'':$model->id_card_d;?><!--"/>-->
+<!--        </div>-->
+<!--    </div>-->
+<!---->
+<!--    <div class="row show-grid">-->
+<!--        <label class="col-sm-2 control-label" for="standard">现场照</label>-->
+<!--        <div class="col-sm-10">-->
+<!--            <img class="zoomify thumb-img" src="--><?php //echo empty($model)?'':$model->scene_photo;?><!--"/>-->
+<!--        </div>-->
+<!--    </div>-->
+    <?php $i=0;?>
+    <?php foreach($imageKey as $type=>$typeName):?>
     <div class="row show-grid">
-        <label class="col-sm-2 control-label" for="standard">委托代理证明</label>
-        <div class="col-sm-10">
-            <img class="zoomify thumb-img" src="<?php echo empty($model)?'':$model->entrust_agent;?>"/>
-        </div>
-    </div>
-
-    <div class="row show-grid">
-        <label class="col-sm-2 control-label" for="standard">身份证正面</label>
-        <div class="col-sm-10">
-            <img class="zoomify thumb-img" src="<?php echo empty($model)?'':$model->id_card_u;?>"/>
-        </div>
-    </div>
-
-    <div class="row show-grid">
-        <label class="col-sm-2 control-label" for="standard">身份证反面</label>
-        <div class="col-sm-10">
-            <img class="zoomify thumb-img" src="<?php echo empty($model)?'':$model->id_card_d;?>"/>
-        </div>
-    </div>
-
-    <div class="row show-grid">
-        <label class="col-sm-2 control-label" for="standard">现场照</label>
-        <div class="col-sm-10">
-            <img class="zoomify thumb-img" src="<?php echo empty($model)?'':$model->scene_photo;?>"/>
-        </div>
-    </div>
-
-    <div class="row show-grid">
-        <label class="col-sm-2 control-label" for="images">图片</label>
+        <label class="col-sm-2 control-label" for="images"><?php echo $typeName;?></label>
         <div class="col-sm-10">
             <?php
             echo \kartik\file\FileInput::widget([
-                'model' => $image,
-                'attribute' => 'imageFile[]',
+//                'model' => new \app\models\Upload(),
+                'name' => $type.'[]',
                 'options' => ['multiple' => true],
                 'pluginOptions' => [
                     'previewFileType' => 'image',
-//                    'initialPreview' => $imageList,
-//                    'initialPreviewConfig' => $imageListConfig,
+                    'initialPreview' => isset($imageList[$type])?$imageList[$type]:[],
+                    'initialPreviewConfig' => isset($imageListConfig[$type])?$imageListConfig[$type]:[],
 //                'uploadUrl' => yii\helpers\Url::toRoute(['/dishes-bom/async-image']),
 //                'uploadExtraData' => [
 //                    'dish_id' => $model->dishes_bom_id,
@@ -192,20 +194,21 @@ $this->registerJsFile("@web/js/zoomify.min.js",['position'=>\yii\web\View::POS_B
                     }
                     console.log(img.width);
 
-
         }",
                 ],
             ]);?>
         </div>
     </div>
 
-    <div class="row show-grid">
-        <label class="col-sm-2 control-label" for="standard">营业执照</label>
-        <div class="col-sm-10">
-            <input type="file" id="" name="imageFile" value=""/>
-        </div>
-    </div>
-    <hr>
+    <?php endforeach;?>
+
+<!--    <div class="row show-grid">-->
+<!--        <label class="col-sm-2 control-label" for="standard">营业执照</label>-->
+<!--        <div class="col-sm-10">-->
+<!--            <input type="file" id="" name="imageFile" value=""/>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    <hr>-->
 
     <div class="row show-gird">
         <div class="col-xs-4">

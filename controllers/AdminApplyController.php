@@ -12,8 +12,10 @@ namespace app\controllers;
 use app\lib\tools\ZipFile;
 use app\modelex\JingAccessEx;
 use app\modelex\JingApplyEx;
+use app\modelex\JingResourseEx;
 use app\modelex\JingUserEx;
 use app\models\Upload;
+use yii\helpers\Url;
 use yii\web\UploadedFile;
 use yii\data\ActiveDataProvider;
 
@@ -51,6 +53,21 @@ class AdminApplyController extends AdminController
         $user = JingUserEx::loadByPk($model->user_id);
         $showApplyFlag = ($user->status == JingUserEx::STATUS_INITIAL?true:false);
         $showPassportFlag = (($user->status == JingUserEx::STATUS_AUTHING || $user->status == JingUserEx::STATUS_COMPLETE)?false:true);
+        $imageList = $model->getImageRes();
+        $imageKey = JingResourseEx::getTypeNameList();
+        $imagePaths = [];
+        $imagesConfig = [];
+        $host = \yii::$app->request->hostInfo.'/';
+        foreach($imageList as $type => $image) {
+//            $imageKey[] = $type;
+            foreach($image as $img) {
+                $imagePaths[$type][] = $host.$img->path;
+                $imagesConfig[$type][] = [
+                    'url' => Url::to(['admin-apply/del-image','id'=>$img->id]),
+                    'key' => $img->id,
+                ];
+            }
+        }
 
         return $this->render('update',[
             'model' => $model,
@@ -59,6 +76,9 @@ class AdminApplyController extends AdminController
             'showApplyFlag' => $showApplyFlag,
             'showPassportFlag' => $showPassportFlag,
             'image' => new Upload(),
+            'imageList' => $imagePaths,
+            'imageKey' => $imageKey,
+            'imageListConfig' => $imagesConfig,
             'typeList' => [
                 '普通',
                 '专票',
@@ -111,13 +131,29 @@ class AdminApplyController extends AdminController
         $model->bus_range = $request->post('busRange');
         $model->save();
 
-        $upload = new Upload();
-        $upload->imageFile = UploadedFile::getInstanceByName('imageFile');
+        $typeList = JingResourseEx::getTypeNameList();
 
-        if($path = $upload->upload()) {
-            $model->bus_passport = $path;
-            $model->save();
+        $images = new Upload();
+        foreach($typeList as $tk=>$tName) {
+            $images->imageFiles = UploadedFile::getInstancesByName($tk);
+            $pathList = $images->uploads();
+
+            foreach($pathList as $path) {
+                $model->saveImage($tk, $path);
+            }
         }
+
+
+//        $upload = new Upload();
+//        $upload->imageFile = UploadedFile::getInstanceByName('imageFile');
+//
+//        if($path = $upload->upload()) {
+//            $model->bus_passport = $path;
+//            $model->save();
+//        }
+
+
+
         if($flag) {
             //修改状态
             $user = JingUserEx::loadByPk($model->user_id);
@@ -125,6 +161,17 @@ class AdminApplyController extends AdminController
         }
 
         return $this->redirect(['admin-apply/update','id'=>$id]);
+    }
+
+    public function actionDelImage() {
+        $request = \Yii::$app->request;
+
+        $id = $request->get('id');
+        $img = JingResourseEx::loadByPk($id);
+        if(!empty($img)) {
+            $img->delete();
+        }
+        return true;
     }
 
     public function actionAjaxConfirm() {
@@ -174,31 +221,22 @@ class AdminApplyController extends AdminController
         $images = [];
         foreach($list as $model) {
             $imgArr = $model->getImageRes();
-            foreach($imgArr as $ik => $path) {
-                if(!empty($path)) {
-                    $images[] = [
-                        'image_src' => $path, 'image_name' => $model->id.'_'.$ik.'.jpg'
-                    ];
+            foreach($imgArr as  $type=> $resArr) {
+                foreach($resArr as $k=>$res) {
+                    if(!empty($res->path)) {
+                        $images[] = [
+                            'image_src' => $res->path, 'image_name' => $model->id.'_'.$type.'_'.$k.'.jpg'
+                        ];
+                    }
                 }
             }
         }
-//        $imgArr = $model->getImageRes();
-//
-//        foreach($imgArr as $ik => $path) {
-//            if(!empty($path)) {
-//                $images[] = [
-//                    'image_src' => $path, 'image_name' => $model->id.'_'.$ik.'.jpg'
-//                ];
-//            }
-//        }
 
         foreach($images as $image) {
             $zip->add_file(file_get_contents($image['image_src']),$image['image_name']);
         }
         $delimiter = ',';
         $arr = [];
-
-//        $list = JingApplyEx::getListByStatus();
 
         $arr[] = '="个体户名称"';
         $arr[] = $delimiter . '="行业类别"';
