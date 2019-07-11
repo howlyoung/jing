@@ -66,6 +66,34 @@ $this->registerJsFile("@web/js/zoomify.min.js",['position'=>\yii\web\View::POS_B
         </div>
     </div>
 
+    <div class="row show-grid">
+        <label class="col-sm-2 control-label" for="standard">开户行</label>
+        <div class="col-xs-4">
+            <input name="bankCode" class="form-control" value="<?php echo empty($model)?'':$model->bankCode;?>" id="dishesName" />
+        </div>
+    </div>
+
+    <div class="row show-grid">
+        <label class="col-sm-2 control-label" for="standard">银行账号</label>
+        <div class="col-xs-4">
+            <input name="bankCard" class="form-control" value="<?php echo empty($model)?'':$model->bank_card;?>" id="dishesName" />
+        </div>
+    </div>
+
+    <div class="row show-grid">
+        <label class="col-sm-2 control-label" for="standard">公司电话</label>
+        <div class="col-xs-4">
+            <input name="companyTel" class="form-control" value="<?php echo empty($model)?'':$model->company_tel;?>" id="dishesName" />
+        </div>
+    </div>
+
+    <div class="row show-grid">
+        <label class="col-sm-2 control-label" for="dishesName">公司地址</label>
+        <div class="col-sm-10">
+            <textarea class="form-control" rows="3" cols="20" name="companyAddress" id="sellPoint"><?php echo empty($model)?'':$model->company_address;?></textarea>
+        </div>
+    </div>
+
     <?php foreach($imageKey as $type=>$typeName):?>
         <div class="row show-grid">
             <label class="col-sm-2 control-label" for="images"><?php echo $typeName;?></label>

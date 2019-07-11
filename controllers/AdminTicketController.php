@@ -90,6 +90,10 @@ class AdminTicketController extends AdminController
         $model->address = $request->post('address');
         $model->addressee = $request->post('addressee');
         $model->addressee_mobile = $request->post('addresseeMobile');
+        $model->bankCode = $request->post('bankCode','');
+        $model->bank_card = $request->post('bankCard','');
+        $model->company_address = $request->post('companyAddress','');
+        $model->company_tel = $request->post('companyTel','');
 
         $model->save();
 
