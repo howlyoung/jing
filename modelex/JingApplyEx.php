@@ -131,6 +131,7 @@ class JingApplyEx extends JingApply
             self::STATUS_WAIT => '审核中',
             self::STATUS_FIRST_PASS => '通过',
             self::STATUS_FIRST_FAIL => '未通过',
+            self::STATUS_COMPLETE => '完成',
         ];
         return array_key_exists($this->status,$arr)?$arr[$this->status]:'异常';
     }
