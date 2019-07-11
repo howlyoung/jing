@@ -64,12 +64,12 @@ class JingApplyEx extends JingApply
     public function getFields() {
         $host = \yii::$app->request->hostInfo.'/';
         return [
-            'argeement' => JingResourseEx::getPathByTypeAndNameAndReferId(JingResourseEx::TYPE_APPLY, JingResourseEx::NAME_THREE_AGREEMENT, $this->id),
-            'agent' => JingResourseEx::getPathByTypeAndNameAndReferId(JingResourseEx::TYPE_APPLY, JingResourseEx::NAME_ENTRUST_AGENT, $this->id),
-            'id_card_u' => JingResourseEx::getPathByTypeAndNameAndReferId(JingResourseEx::TYPE_APPLY, JingResourseEx::NAME_ID_CARD_U, $this->id),
-            'id_card_d' => JingResourseEx::getPathByTypeAndNameAndReferId(JingResourseEx::TYPE_APPLY, JingResourseEx::NAME_ID_CARD_D, $this->id),
-            'current' => JingResourseEx::getPathByTypeAndNameAndReferId(JingResourseEx::TYPE_APPLY, JingResourseEx::NAME_SCENE_PHOTO, $this->id),
-            'passport' => JingResourseEx::getPathByTypeAndNameAndReferId(JingResourseEx::TYPE_APPLY, JingResourseEx::NAME_BUS_PASSPORT, $this->id),
+            'argeement' => JingResourseEx::getPathByTypeAndNameAndReferId(JingResourseEx::TYPE_APPLY, JingResourseEx::NAME_THREE_AGREEMENT, $this->id, $host),
+            'agent' => JingResourseEx::getPathByTypeAndNameAndReferId(JingResourseEx::TYPE_APPLY, JingResourseEx::NAME_ENTRUST_AGENT, $this->id, $host),
+            'id_card_u' => JingResourseEx::getPathByTypeAndNameAndReferId(JingResourseEx::TYPE_APPLY, JingResourseEx::NAME_ID_CARD_U, $this->id, $host),
+            'id_card_d' => JingResourseEx::getPathByTypeAndNameAndReferId(JingResourseEx::TYPE_APPLY, JingResourseEx::NAME_ID_CARD_D, $this->id, $host),
+            'current' => JingResourseEx::getPathByTypeAndNameAndReferId(JingResourseEx::TYPE_APPLY, JingResourseEx::NAME_SCENE_PHOTO, $this->id, $host),
+            'passport' => JingResourseEx::getPathByTypeAndNameAndReferId(JingResourseEx::TYPE_APPLY, JingResourseEx::NAME_BUS_PASSPORT, $this->id, $host),
             'bankCard' => $this->bank_card,
             'bankCode' => $this->bank_code,
             'ticketContent' => $this->ticket_content,

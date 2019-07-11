@@ -68,13 +68,14 @@ class JingResourseEx extends JingResourse
      * @param $type
      * @param $name
      * @param $referId
+     * @param $host
      * @return array
      */
-    public static function getPathByTypeAndNameAndReferId($type, $name ,$referId) {
+    public static function getPathByTypeAndNameAndReferId($type, $name ,$referId, $host='') {
         $arr = self::loadAllByTypeAndNameAndReferId($type, $name ,$referId);
         $paths = [];
         foreach($arr as $p) {
-            $paths[$p->id] = $p->path;
+            $paths[$p->id] = $host.$p->path;
         }
         return $paths;
     }
