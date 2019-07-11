@@ -16,6 +16,9 @@ use Yii;
  * @property string $addressee_mobile 收件人手机
  * @property string $email 电子邮箱
  * @property string $bank_code 开户行
+ * @property string $bank_card 银行账号
+ * @property string $company_address 公司地址
+ * @property string $company_tel 公司联系电话
  */
 class JingTicketTitle extends \yii\db\ActiveRecord
 {
@@ -34,7 +37,9 @@ class JingTicketTitle extends \yii\db\ActiveRecord
     {
         return [
             [['user_id'], 'integer'],
-            [['ticket_title', 'ticket_code', 'address', 'addressee', 'addressee_mobile', 'email', 'bank_code'], 'string', 'max' => 128],
+            [['ticket_title', 'ticket_code', 'address', 'addressee', 'addressee_mobile', 'email', 'bank_code', 'company_address'], 'string', 'max' => 128],
+            [['bank_card'], 'string', 'max' => 64],
+            [['company_tel'], 'string', 'max' => 32],
         ];
     }
 
@@ -53,6 +58,9 @@ class JingTicketTitle extends \yii\db\ActiveRecord
             'addressee_mobile' => '收件人手机',
             'email' => '电子邮箱',
             'bank_code' => '开户行',
+            'bank_card' => '银行账号',
+            'company_address' => '公司地址',
+            'company_tel' => '公司联系电话',
         ];
     }
 

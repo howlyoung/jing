@@ -16,6 +16,9 @@ use Yii;
  * @property int $receive_type 接收方式 0 电子  1 纸质
  * @property string $email 电子邮箱
  * @property string $bankCode 开户行
+ * @property string $bank_card 银行账号
+ * @property string $company_address 公司地址
+ * @property string $company_tel 公司电话
  * @property string $address 快递地址
  * @property string $addressee 收件人
  * @property string $addressee_mobile 收件人手机
@@ -24,6 +27,8 @@ use Yii;
  * @property string $amount_bill 打款凭证
  * @property string $random_flag 随机的唯一标识，供页面重复上传使用
  * @property int $status 状态
+ * @property string $dt_create 创建时间
+ * @property string $dt_update 更新时间
  */
 class JingTicket extends \yii\db\ActiveRecord
 {
@@ -42,9 +47,10 @@ class JingTicket extends \yii\db\ActiveRecord
     {
         return [
             [['ticket_type', 'ticket_amount', 'user_id', 'receive_type', 'service_fee', 'status'], 'integer'],
-            [['ticket_title', 'addressee_mobile'], 'string', 'max' => 32],
-            [['ticket_code', 'email', 'bankCode'], 'string', 'max' => 64],
-            [['address', 'addressee', 'service_bill', 'amount_bill', 'random_flag'], 'string', 'max' => 128],
+            [['dt_create', 'dt_update'], 'safe'],
+            [['ticket_title', 'company_tel', 'addressee_mobile'], 'string', 'max' => 32],
+            [['ticket_code', 'email', 'bankCode', 'bank_card'], 'string', 'max' => 64],
+            [['company_address', 'address', 'addressee', 'service_bill', 'amount_bill', 'random_flag'], 'string', 'max' => 128],
         ];
     }
 
@@ -63,6 +69,9 @@ class JingTicket extends \yii\db\ActiveRecord
             'receive_type' => '接收方式 0 电子  1 纸质',
             'email' => '电子邮箱',
             'bankCode' => '开户行',
+            'bank_card' => '银行账号',
+            'company_address' => '公司地址',
+            'company_tel' => '公司电话',
             'address' => '快递地址',
             'addressee' => '收件人',
             'addressee_mobile' => '收件人手机',
@@ -71,6 +80,8 @@ class JingTicket extends \yii\db\ActiveRecord
             'amount_bill' => '打款凭证',
             'random_flag' => '随机的唯一标识，供页面重复上传使用',
             'status' => '状态',
+            'dt_create' => '创建时间',
+            'dt_update' => '更新时间',
         ];
     }
 

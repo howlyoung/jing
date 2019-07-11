@@ -25,10 +25,14 @@ class JingTicketController extends AppController
         $expressAddress = $this->request->post('expressAddress');
         $addressee = $this->request->post('addressee');
         $consigneeMobile = $this->request->post('mobile');
-        $bank = $this->request->post('bank');
+        $bank = $this->request->post('bankCode');
         $mail = $this->request->post('mail');
         $imgName = $this->request->post('imgName');
         $flag = $this->request->post('flag');
+        $bankCard = $this->request->post('bankCard','');
+        $companyAddress = $this->request->post('companyAddress','');
+        $companyTel = $this->request->post('companyTel','');
+        $ticketType = $this->request->post('ticketType','');
 
         $model = JingTicketEx::loadByFlag($flag);
         $user = $this->getUser();
@@ -46,6 +50,10 @@ class JingTicketController extends AppController
             $model->bankCode = $bank;
             $model->email = $mail;
             $model->random_flag = $flag;
+            $model->bank_card = $bankCard;
+            $model->company_address = $companyAddress;
+            $model->company_tel = $companyTel;
+            $model->ticket_type = $ticketType;
             $model->save();
         }
 
@@ -56,13 +64,17 @@ class JingTicketController extends AppController
     }
 
     public function actionCreateTitle() {
-        $title = $this->request->post('title');
-        $code = $this->request->post('code');
-        $mail = $this->request->post('mail');
-        $address = $this->request->post('address');
-        $addressee = $this->request->post('addressee');
-        $mobile = $this->request->post('mobile');
-        $bankCode = $this->request->post('bankCode');
+        $title = $this->request->post('title','');
+        $code = $this->request->post('code','');
+        $mail = $this->request->post('mail','');
+        $address = $this->request->post('address','');
+        $addressee = $this->request->post('addressee','');
+        $mobile = $this->request->post('mobile','');
+        $bankCode = $this->request->post('bankCode','');
+        $bankCard = $this->request->post('bankCard','');
+        $companyAddress = $this->request->post('companyAddress','');
+        $companyTel = $this->request->post('companyTel','');
+
 
         $model = JingTicketTitleEx::loadByTitle($title);
         if(empty($model)) {
@@ -77,6 +89,9 @@ class JingTicketController extends AppController
         $model->email = $mail;
         $model->addressee = $addressee;
         $model->bank_code = $bankCode;
+        $model->bank_card = $bankCard;
+        $model->company_address = $companyAddress;
+        $model->company_tel = $companyTel;
 
         $model->save();
 
@@ -95,6 +110,9 @@ class JingTicketController extends AppController
             $tmp['mobile'] = $title->addressee_mobile;
             $tmp['mail'] = $title->email;
             $tmp['bankCode'] = $title->bank_code;
+            $tmp['bankCard'] = $title->bank_card;
+            $tmp['companyAddress'] = $title->company_address;
+            $tmp['companyTel'] = $title->company_tel;
             $result[] = $tmp;
         }
         return $this->respone(['code'=>1,'data'=>$result]);
