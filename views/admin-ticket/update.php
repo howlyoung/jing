@@ -32,9 +32,9 @@ $this->registerJsFile("@web/js/zoomify.min.js",['position'=>\yii\web\View::POS_B
         </div>
     </div>
     <div class="row show-grid">
-        <label class="col-sm-2 control-label" for="parent">接受方式</label>
+        <label class="col-sm-2 control-label" for="parent">发票类型</label>
         <div class="col-xs-4">
-            <?php echo Html::dropDownList('type',(empty($model)?null:$model->receive_type),$typeList,['class'=>'form-control','prompt'=>'选择分类'])?>
+            <?php echo Html::dropDownList('type',(empty($model)?null:$model->receive_type),$typeList,['class'=>'form-control','prompt'=>'选择类型'])?>
         </div>
     </div>
 
