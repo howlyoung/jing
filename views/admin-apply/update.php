@@ -130,41 +130,6 @@ $this->registerJsFile("@web/js/zoomify.min.js",['position'=>\yii\web\View::POS_B
     </div>
 
 
-<!--    <div class="row show-grid">-->
-<!--        <label class="col-sm-2 control-label" for="standard">三方协议</label>-->
-<!--        <div class="col-sm-10">-->
-<!--            <img class="zoomify thumb-img" src="--><?php //echo empty($model)?'':$model->three_agreement;?><!--"/>-->
-<!--        </div>-->
-<!--    </div>-->
-<!---->
-<!--    <div class="row show-grid">-->
-<!--        <label class="col-sm-2 control-label" for="standard">委托代理证明</label>-->
-<!--        <div class="col-sm-10">-->
-<!--            <img class="zoomify thumb-img" src="--><?php //echo empty($model)?'':$model->entrust_agent;?><!--"/>-->
-<!--        </div>-->
-<!--    </div>-->
-<!---->
-<!--    <div class="row show-grid">-->
-<!--        <label class="col-sm-2 control-label" for="standard">身份证正面</label>-->
-<!--        <div class="col-sm-10">-->
-<!--            <img class="zoomify thumb-img" src="--><?php //echo empty($model)?'':$model->id_card_u;?><!--"/>-->
-<!--        </div>-->
-<!--    </div>-->
-<!---->
-<!--    <div class="row show-grid">-->
-<!--        <label class="col-sm-2 control-label" for="standard">身份证反面</label>-->
-<!--        <div class="col-sm-10">-->
-<!--            <img class="zoomify thumb-img" src="--><?php //echo empty($model)?'':$model->id_card_d;?><!--"/>-->
-<!--        </div>-->
-<!--    </div>-->
-<!---->
-<!--    <div class="row show-grid">-->
-<!--        <label class="col-sm-2 control-label" for="standard">现场照</label>-->
-<!--        <div class="col-sm-10">-->
-<!--            <img class="zoomify thumb-img" src="--><?php //echo empty($model)?'':$model->scene_photo;?><!--"/>-->
-<!--        </div>-->
-<!--    </div>-->
-    <?php $i=0;?>
     <?php foreach($imageKey as $type=>$typeName):?>
     <div class="row show-grid">
         <label class="col-sm-2 control-label" for="images"><?php echo $typeName;?></label>
@@ -240,7 +205,7 @@ $this->registerJsFile("@web/js/zoomify.min.js",['position'=>\yii\web\View::POS_B
         <?php if($showApplyFlag):?>
         <div class="col-xs-4">
             <?php
-            echo Html::button('更新并通过', ['class' => 'btn btn-default','onclick' => 'apply()']);
+            echo Html::button('初审通过', ['class' => 'btn btn-default','onclick' => 'apply()']);
             ?>
         </div>
         <?php endif;?>

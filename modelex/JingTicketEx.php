@@ -72,6 +72,16 @@ class JingTicketEx extends JingTicket
     }
 
     /**
+     * @return array
+     */
+    public static function getTypeList() {
+        return [
+            self::TYPE_COMMON => '普票',
+            self::TYPE_SPECIAL => '专票',
+        ];
+    }
+
+    /**
      * @return string
      */
     public function getStatusName() {
@@ -88,8 +98,8 @@ class JingTicketEx extends JingTicket
      */
     public function getImageRes() {
         return [
-            'service_bill' => !empty($this->service_bill)?$this->service_bill:'',
-            'amount_bill' => !empty($this->amount_bill)?$this->amount_bill:'',
+            'serviceBill' => JingResourseEx::loadAllByTypeAndNameAndReferId(JingResourseEx::TYPE_TICKET, JingResourseEx::NAME_SERVICE_BILL, $this->id),
+            'amountBill' => JingResourseEx::loadAllByTypeAndNameAndReferId(JingResourseEx::TYPE_TICKET, JingResourseEx::NAME_AMOUNT_BILL, $this->id),
         ];
     }
 
@@ -143,5 +153,14 @@ class JingTicketEx extends JingTicket
         } else {
             return null;
         }
+    }
+
+    /**
+     * @param $name
+     * @param $path
+     * @return JingResourseEx|null
+     */
+    public function saveImage($name,$path) {
+        return JingResourseEx::create(JingResourseEx::TYPE_TICKET, $this->id, $name, $path);
     }
 }

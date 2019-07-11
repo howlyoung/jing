@@ -11,8 +11,12 @@ namespace app\controllers;
 
 use app\lib\tools\ZipFile;
 use app\modelex\JingApplyEx;
+use app\modelex\JingResourseEx;
 use app\modelex\JingTicketEx;
+use app\models\Upload;
 use yii\data\ActiveDataProvider;
+use yii\helpers\Url;
+use yii\web\UploadedFile;
 
 class AdminTicketController extends AdminController
 {
@@ -48,11 +52,63 @@ class AdminTicketController extends AdminController
 
         $model = JingTicketEx::loadByPk($id);
         $data['model'] = $model;
+        $data['typeList'] = JingTicketEx::getTypeList();
+
+        $imageList = $model->getImageRes();
+        $imageKey = [
+            'serviceBill' => '服务费凭证',
+            'amountBill' => '打款凭证',
+        ];
+        $imagePaths = [];
+        $imagesConfig = [];
+        $host = \yii::$app->request->hostInfo.'/';
+        foreach($imageList as $type => $image) {
+            foreach($image as $img) {
+                $imagePaths[$type][] = $host.$img->path;
+                $imagesConfig[$type][] = [
+                    'url' => Url::to(['admin-ticket/del-image','id'=>$img->id]),
+                    'key' => $img->id,
+                ];
+            }
+        }
+        $data['imageList'] = $imagePaths;
+        $data['imageKey'] = $imageKey;
+        $data['imageListConfig'] = $imagesConfig;
 
         return $this->render('update',$data);
     }
 
     public function actionDoUpdate() {
+        $request = \Yii::$app->request;
+
+        $id = $request->post('id');
+        $model = JingTicketEx::loadByPk($id);
+
+        $model->ticket_title = $request->post('ticketTitle');
+        $model->ticket_code = $request->post('ticketCode');
+        $model->receive_type = $request->post('type');
+        $model->address = $request->post('address');
+        $model->addressee = $request->post('addressee');
+        $model->addressee_mobile = $request->post('addresseeMobile');
+
+        $model->save();
+
+        $typeList = [
+            'serviceBill' => '服务费凭证',
+            'amountBill' => '打款凭证',
+        ];
+        $images = new Upload();
+        foreach($typeList as $tk=>$tName) {
+            $images->imageFiles = UploadedFile::getInstancesByName($tk);
+            $pathList = $images->uploads();
+
+            foreach($pathList as $path) {
+                $model->saveImage($tk, $path);
+            }
+        }
+
+        return $this->redirect(['admin-ticket/update','id'=>$id]);
+
 
     }
 
@@ -74,6 +130,17 @@ class AdminTicketController extends AdminController
         return $query;
     }
 
+    public function actionDelImage() {
+        $request = \Yii::$app->request;
+
+        $id = $request->get('id');
+        $img = JingResourseEx::loadByPk($id);
+        if(!empty($img)) {
+            $img->delete();
+        }
+        return true;
+    }
+
 
     public function actionAjaxConfirm() {
         $request = \Yii::$app->request;
@@ -86,6 +153,20 @@ class AdminTicketController extends AdminController
             $model->confirm();
 
             return $this->redirect(['admin-ticket/index']);
+        }
+    }
+
+    public function actionConfirm() {
+        $request = \Yii::$app->request;
+        $id = $request->get('id');
+
+        $model = JingTicketEx::loadByPk($id);
+        if(empty($model)) {
+            return json_encode(['code'=>-1,'msg'=>'申请不存在']);
+        } else {
+            $model->confirm();
+
+            return $this->redirect(['admin-ticket/update','id'=>$id]);
         }
     }
 

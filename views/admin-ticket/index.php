@@ -77,6 +77,12 @@ $this->registerCss($cssString);
                 }
             ],
             [
+                'attribute' => '金额',
+                'value' => function($data) {
+                    return \app\lib\tools\CashUtil::toReadFmt($data->ticket_amount);
+                }
+            ],
+            [
                 'attribute' => '接收方式',
                 'value' => function($data) {
                     return $data->getMode();
@@ -100,34 +106,34 @@ $this->registerCss($cssString);
                     return $data->addressee_mobile;
                 }
             ],
-            [
-                'attribute' => '打款凭证',
-                'value' => function($data){
-                    return $data->amount_bill;
-                }
-            ],
-            [
-                'attribute' => '服务费凭证',
-                'value' => function($data){
-                    return $data->service_bill;
-                }
-            ],
+//            [
+//                'attribute' => '打款凭证',
+//                'value' => function($data){
+//                    return $data->amount_bill;
+//                }
+//            ],
+//            [
+//                'attribute' => '服务费凭证',
+//                'value' => function($data){
+//                    return $data->service_bill;
+//                }
+//            ],
             [
                 'class' => 'yii\grid\ActionColumn',
                 'header' => '操作',
-                'template' => '{confirm}',
+                'template' => '{confirm} {select}',
                 'headerOptions' => ['width' => '160'],
                 'buttons' => [
                     'confirm' => function($url,$model,$key) {
                         if($model->status == \app\modelex\JingTicketEx::STATUS_WAIT) {
-                            return Html::a('<i class="fa fa-ban"></i> 确认',
-                                ['admin-ticket/ajax-confirm','id'=>$key],['data'=>['confirm' =>'是否确认']]);
+                            return Html::a('<i class="fa fa-ban"></i> 已开票',
+                                ['admin-ticket/ajax-confirm','id'=>$key],['data'=>['confirm' =>'是否已开票']]);
                         }
                     },
-//                    'select' => function($url,$model,$key) {
-//                        return Html::a('<i class="fa fa-ban"></i> 编辑',
-//                            ['admin-apply/update','id'=>$key]);
-//                    },
+                    'select' => function($url,$model,$key) {
+                        return Html::a('<i class="fa fa-ban"></i> 编辑',
+                            ['admin-ticket/update','id'=>$key]);
+                    },
                 ],
             ],
         ],

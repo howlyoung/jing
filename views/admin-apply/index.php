@@ -107,7 +107,7 @@ $this->registerCss($cssString);
             [
                 'class' => 'yii\grid\ActionColumn',
                 'header' => '操作',
-                'template' => '{confirm}  {select} {complete}',
+                'template' => '{confirm}  {select}',
                 'headerOptions' => ['width' => '160'],
                 'buttons' => [
                     'confirm' => function($url,$model,$key) {

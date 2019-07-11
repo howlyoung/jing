@@ -24,8 +24,8 @@ class JingResourseEx extends JingResourse
     const NAME_SCENE_PHOTO = 'current';            //现场照片
     const NAME_BUS_PASSPORT = 'passport';           //营业执照
 
-    const NAME_SERVICE_BILL = '';        //服务费凭据
-    const NAME_AMOUNT_BILL = '';        //打款凭据
+    const NAME_SERVICE_BILL = 'serviceBill';        //服务费凭据
+    const NAME_AMOUNT_BILL = 'amountBill';        //打款凭据
 
     /**
      * @param $type
