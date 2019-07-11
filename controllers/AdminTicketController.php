@@ -58,6 +58,7 @@ class AdminTicketController extends AdminController
         $imageKey = [
             'serviceBill' => '服务费凭证',
             'amountBill' => '打款凭证',
+            'agreement' => '合作协议',
         ];
         $imagePaths = [];
         $imagesConfig = [];
@@ -84,6 +85,7 @@ class AdminTicketController extends AdminController
         $id = $request->post('id');
         $model = JingTicketEx::loadByPk($id);
 
+        $model->person_name = $request->post('personName');
         $model->ticket_title = $request->post('ticketTitle');
         $model->ticket_code = $request->post('ticketCode');
         $model->receive_type = $request->post('type');
@@ -94,12 +96,12 @@ class AdminTicketController extends AdminController
         $model->bank_card = $request->post('bankCard','');
         $model->company_address = $request->post('companyAddress','');
         $model->company_tel = $request->post('companyTel','');
-
         $model->save();
 
         $typeList = [
             'serviceBill' => '服务费凭证',
             'amountBill' => '打款凭证',
+            'agreement' => '合作协议',
         ];
         $images = new Upload();
         foreach($typeList as $tk=>$tName) {

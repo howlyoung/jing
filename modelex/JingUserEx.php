@@ -21,6 +21,17 @@ class JingUserEx extends  JingUser
     const STATUS_AUTHING = 4;//认证中
     const STATUS_USER_CONFIRM = 5;//用户确认实名
 
+    public function beforeSave($insert)
+    {
+        if(parent::beforeSave($insert)) {
+            if($this->isNewRecord) {
+                $this->dt_create = date("Y-m-d H:i:s",time());
+            }
+            return true;
+        }
+        return false;
+    }
+
     /**
      * @param $pk
      * @return JingUserEx|array|null

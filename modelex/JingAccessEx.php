@@ -18,6 +18,21 @@ class JingAccessEx extends JingAccess
 
     const TYPE_PERSON = 0;  //个人客户
     const TYPE_COMPANY = 1; //企业客户
+
+    public function beforeSave($insert)
+    {
+        if(parent::beforeSave($insert)) {
+            if($this->isNewRecord) {
+                $this->dt_create = date("Y-m-d H:i:s",time());
+                $this->dt_update = date("Y-m-d H:i:s",time());
+            } else {
+                $this->dt_update = date("Y-m-d H:i:s",time());
+            }
+            return true;
+        }
+        return false;
+    }
+
     /**
      * @param string $status
      * @return \self[]|array

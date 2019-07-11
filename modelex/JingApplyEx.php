@@ -22,6 +22,20 @@ class JingApplyEx extends JingApply
 
     const TYPE_COMMON = 0;  //普通票
     const TYPE_SPECIAL = 1; //专票
+
+    public function beforeSave($insert)
+    {
+        if(parent::beforeSave($insert)) {
+            if($this->isNewRecord) {
+                $this->dt_create = date("Y-m-d H:i:s",time());
+                $this->dt_update = date("Y-m-d H:i:s",time());
+            } else {
+                $this->dt_update = date("Y-m-d H:i:s",time());
+            }
+            return true;
+        }
+        return false;
+    }
     /**
      * @param $mobile
      * @return self|array|null

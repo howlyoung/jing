@@ -33,6 +33,7 @@ class JingTicketController extends AppController
         $companyAddress = $this->request->post('companyAddress','');
         $companyTel = $this->request->post('companyTel','');
         $ticketType = $this->request->post('ticketType','');
+        $personName = $this->request->post('personName','');
 
         $model = JingTicketEx::loadByFlag($flag);
         $user = $this->getUser();
@@ -54,6 +55,7 @@ class JingTicketController extends AppController
             $model->company_address = $companyAddress;
             $model->company_tel = $companyTel;
             $model->ticket_type = $ticketType;
+            $model->person_name = $personName;
             $model->save();
         }
 

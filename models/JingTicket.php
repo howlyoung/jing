@@ -8,6 +8,7 @@ use Yii;
  * This is the model class for table "{{%jing_ticket}}".
  *
  * @property int $id 自增主键
+ * @property string $person_name 个体工商户名称
  * @property string $ticket_title 发票抬头
  * @property string $ticket_code 纳税人识别号
  * @property int $ticket_type 发票类型 1 普通 2 专用
@@ -48,9 +49,9 @@ class JingTicket extends \yii\db\ActiveRecord
         return [
             [['ticket_type', 'ticket_amount', 'user_id', 'receive_type', 'service_fee', 'status'], 'integer'],
             [['dt_create', 'dt_update'], 'safe'],
+            [['person_name', 'company_address', 'address', 'addressee', 'service_bill', 'amount_bill', 'random_flag'], 'string', 'max' => 128],
             [['ticket_title', 'company_tel', 'addressee_mobile'], 'string', 'max' => 32],
             [['ticket_code', 'email', 'bankCode', 'bank_card'], 'string', 'max' => 64],
-            [['company_address', 'address', 'addressee', 'service_bill', 'amount_bill', 'random_flag'], 'string', 'max' => 128],
         ];
     }
 
@@ -61,6 +62,7 @@ class JingTicket extends \yii\db\ActiveRecord
     {
         return [
             'id' => '自增主键',
+            'person_name' => '个体工商户名称',
             'ticket_title' => '发票抬头',
             'ticket_code' => '纳税人识别号',
             'ticket_type' => '发票类型 1 普通 2 专用',

@@ -49,8 +49,6 @@ class JingAccessController extends AppController
         $access->relation = $relation;
         $access->referrer = $extend;
         $access->marker_channel = $extendChannel;
-        $access->dt_create = date('Y-m-d H:i:s',time());
-        $access->dt_update = date('Y-m-d H:i:s',time());
         $access->save();
 
         $user->setStatus(JingUserEx::STATUS_INITIAL);

@@ -13,6 +13,7 @@ use app\models\JingTicketTitle;
 
 class JingTicketTitleEx extends JingTicketTitle
 {
+
     /**
      * @param $title
      * @return self|array|null

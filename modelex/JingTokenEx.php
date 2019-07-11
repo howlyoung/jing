@@ -13,6 +13,7 @@ use app\models\JingToken;
 
 class JingTokenEx extends JingToken
 {
+
     /**
      * @param $uid
      * @return self|array|null

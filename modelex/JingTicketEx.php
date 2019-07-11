@@ -24,6 +24,20 @@ class JingTicketEx extends JingTicket
 
     const MODE_ELE = 0;
     const MODE_POST = 1;
+
+    public function beforeSave($insert)
+    {
+        if(parent::beforeSave($insert)) {
+            if($this->isNewRecord) {
+                $this->dt_create = date("Y-m-d H:i:s",time());
+                $this->dt_update = date("Y-m-d H:i:s",time());
+            } else {
+                $this->dt_update = date("Y-m-d H:i:s",time());
+            }
+            return true;
+        }
+        return false;
+    }
     /**
      * @param $title
      * @return $this
@@ -86,7 +100,7 @@ class JingTicketEx extends JingTicket
      */
     public function getStatusName() {
         $arr = [
-            self::STATUS_WAIT => '等待开票',
+            self::STATUS_WAIT => '待开票',
             self::STATUS_COMPLETE => '已开',
         ];
         return array_key_exists($this->status,$arr)?$arr[$this->status]:'异常';
@@ -100,6 +114,7 @@ class JingTicketEx extends JingTicket
         return [
             'serviceBill' => JingResourseEx::loadAllByTypeAndNameAndReferId(JingResourseEx::TYPE_TICKET, JingResourseEx::NAME_SERVICE_BILL, $this->id),
             'amountBill' => JingResourseEx::loadAllByTypeAndNameAndReferId(JingResourseEx::TYPE_TICKET, JingResourseEx::NAME_AMOUNT_BILL, $this->id),
+            'agreement' => JingResourseEx::loadAllByTypeAndNameAndReferId(JingResourseEx::TYPE_TICKET, JingResourseEx::NAME_THREE_AGREEMENT, $this->id),
         ];
     }
 

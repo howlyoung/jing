@@ -22,13 +22,13 @@ $this->registerJsFile("@web/js/zoomify.min.js",['position'=>\yii\web\View::POS_B
     <div class="row show-grid">
         <label class="col-sm-2 control-label" for="dishesName">个体户名称</label>
         <div class="col-xs-4">
-            <input disabled="true" class="form-control" value="<?php echo empty($model)?'':$model->getPersonName();?>" />
+            <input name="personName" class="form-control" value="<?php echo empty($model)?'':$model->person_name;?>" />
         </div>
     </div>
     <div class="row show-grid">
         <label class="col-sm-2 control-label" for="dishesName">抬头</label>
-        <div class="col-xs-4">
-            <input name="ticketTitle" class="form-control" value="<?php echo empty($model)?'':$model->ticket_title;?>" id="dishesName" />
+        <div class="col-sm-10">
+            <textarea class="form-control" rows="3" cols="20" name="ticketTitle" id="sellPoint"><?php echo empty($model)?'':$model->ticket_title;?></textarea>
         </div>
     </div>
     <div class="row show-grid">
@@ -88,7 +88,7 @@ $this->registerJsFile("@web/js/zoomify.min.js",['position'=>\yii\web\View::POS_B
     </div>
 
     <div class="row show-grid">
-        <label class="col-sm-2 control-label" for="dishesName">公司地址</label>
+        <label class="col-sm-2 control-label" for="dishesName">开票地址</label>
         <div class="col-sm-10">
             <textarea class="form-control" rows="3" cols="20" name="companyAddress" id="sellPoint"><?php echo empty($model)?'':$model->company_address;?></textarea>
         </div>

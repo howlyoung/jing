@@ -61,7 +61,7 @@ $this->registerCss($cssString);
             [
                 'attribute' => '个体户名称',
                 'value' => function($data) {
-                    return $data->getPersonName();
+                    return $data->person_name;
                 }
             ],
             [
@@ -104,6 +104,12 @@ $this->registerCss($cssString);
                 'attribute' => '收件人手机',
                 'value' => function($data){
                     return $data->addressee_mobile;
+                }
+            ],
+            [
+                'attribute' => '状态',
+                'value' => function($data){
+                    return $data->getStatusName();
                 }
             ],
 //            [

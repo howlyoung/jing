@@ -19,13 +19,24 @@ class JingResourseEx extends JingResourse
 
     const NAME_ID_CARD_U = 'id_card_u';              //身份证正面
     const NAME_ID_CARD_D = 'id_card_d';              //身份证反面
-    const NAME_THREE_AGREEMENT = 'argeement';        //三方协议
+    const NAME_THREE_AGREEMENT = 'agreement';        //三方协议
     const NAME_ENTRUST_AGENT = 'agent';          //委托代理证明
     const NAME_SCENE_PHOTO = 'current';            //现场照片
     const NAME_BUS_PASSPORT = 'passport';           //营业执照
 
     const NAME_SERVICE_BILL = 'serviceBill';        //服务费凭据
     const NAME_AMOUNT_BILL = 'amountBill';        //打款凭据
+
+    public function beforeSave($insert)
+    {
+        if(parent::beforeSave($insert)) {
+            if($this->isNewRecord) {
+                $this->dt_create = date("Y-m-d H:i:s",time());
+            }
+            return true;
+        }
+        return false;
+    }
 
     /**
      * @param $type
