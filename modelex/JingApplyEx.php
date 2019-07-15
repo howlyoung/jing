@@ -78,7 +78,7 @@ class JingApplyEx extends JingApply
     public function getFields() {
         $host = \yii::$app->request->hostInfo.'/';
         return [
-            'argeement' => JingResourseEx::getPathByTypeAndNameAndReferId(JingResourseEx::TYPE_APPLY, JingResourseEx::NAME_THREE_AGREEMENT, $this->id, $host),
+            'agreement' => JingResourseEx::getPathByTypeAndNameAndReferId(JingResourseEx::TYPE_APPLY, JingResourseEx::NAME_THREE_AGREEMENT, $this->id, $host),
             'agent' => JingResourseEx::getPathByTypeAndNameAndReferId(JingResourseEx::TYPE_APPLY, JingResourseEx::NAME_ENTRUST_AGENT, $this->id, $host),
             'id_card_u' => JingResourseEx::getPathByTypeAndNameAndReferId(JingResourseEx::TYPE_APPLY, JingResourseEx::NAME_ID_CARD_U, $this->id, $host),
             'id_card_d' => JingResourseEx::getPathByTypeAndNameAndReferId(JingResourseEx::TYPE_APPLY, JingResourseEx::NAME_ID_CARD_D, $this->id, $host),
@@ -101,7 +101,7 @@ class JingApplyEx extends JingApply
      */
     public function getImageRes() {
         return [
-            'argeement' => JingResourseEx::loadAllByTypeAndNameAndReferId(JingResourseEx::TYPE_APPLY, JingResourseEx::NAME_THREE_AGREEMENT, $this->id),
+            'agreement' => JingResourseEx::loadAllByTypeAndNameAndReferId(JingResourseEx::TYPE_APPLY, JingResourseEx::NAME_THREE_AGREEMENT, $this->id),
             'agent' => JingResourseEx::loadAllByTypeAndNameAndReferId(JingResourseEx::TYPE_APPLY, JingResourseEx::NAME_ENTRUST_AGENT, $this->id),
             'id_card_u' => JingResourseEx::loadAllByTypeAndNameAndReferId(JingResourseEx::TYPE_APPLY, JingResourseEx::NAME_ID_CARD_U, $this->id),
             'id_card_d' => JingResourseEx::loadAllByTypeAndNameAndReferId(JingResourseEx::TYPE_APPLY, JingResourseEx::NAME_ID_CARD_D, $this->id),

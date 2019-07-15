@@ -96,7 +96,7 @@ class JingResourseEx extends JingResourse
      */
     public static function getTypeNameList() {
         return [
-            'argeement' => '三方协议',
+            'agreement' => '三方协议',
             'agent' => '代理协议',
             'id_card_u' => '身份证正面',
             'id_card_d' => '身份反面',

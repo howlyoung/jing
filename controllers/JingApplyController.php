@@ -84,7 +84,7 @@ class JingApplyController extends AppController
      */
     protected function map($name) {
         $arr = [
-            'argeement' => 'three_agreement',
+            'agreement' => 'three_agreement',
             'agent' => 'entrust_agent',
             'id_card_u' => 'id_card_u',
             'id_card_d' => 'id_card_d',

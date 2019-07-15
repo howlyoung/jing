@@ -145,17 +145,6 @@ class AdminApplyController extends AdminController
             }
         }
 
-
-//        $upload = new Upload();
-//        $upload->imageFile = UploadedFile::getInstanceByName('imageFile');
-//
-//        if($path = $upload->upload()) {
-//            $model->bus_passport = $path;
-//            $model->save();
-//        }
-
-
-
         if($flag) {
             //修改状态
             $user = JingUserEx::loadByPk($model->user_id);
