@@ -92,6 +92,14 @@ class JingResourseEx extends JingResourse
     }
 
     /**
+     * @param string $host
+     * @return string
+     */
+    public function getPath($host = '') {
+        return $host.$this->path;
+    }
+
+    /**
      * @return array
      */
     public static function getTypeNameList() {

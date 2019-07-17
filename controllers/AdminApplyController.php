@@ -57,7 +57,7 @@ class AdminApplyController extends AdminController
         $imageKey = JingResourseEx::getTypeNameList();
         $imagePaths = [];
         $imagesConfig = [];
-        $host = \yii::$app->request->hostInfo.'/jing/web/';
+        $host = Url::base(true).'/';
         foreach($imageList as $type => $image) {
 //            $imageKey[] = $type;
             foreach($image as $img) {

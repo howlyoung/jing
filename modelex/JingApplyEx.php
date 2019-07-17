@@ -11,6 +11,7 @@ namespace app\modelex;
 
 use app\models\JingApply;
 use app\models\Upload;
+use yii\helpers\Url;
 use yii\web\UploadedFile;
 
 class JingApplyEx extends JingApply
@@ -76,7 +77,7 @@ class JingApplyEx extends JingApply
      * @return array
      */
     public function getFields() {
-        $host = \yii::$app->request->hostInfo.'/jing/web/';
+        $host = Url::base(true).'/';
         return [
             'agreement' => JingResourseEx::getPathByTypeAndNameAndReferId(JingResourseEx::TYPE_APPLY, JingResourseEx::NAME_THREE_AGREEMENT, $this->id, $host),
             'agent' => JingResourseEx::getPathByTypeAndNameAndReferId(JingResourseEx::TYPE_APPLY, JingResourseEx::NAME_ENTRUST_AGENT, $this->id, $host),

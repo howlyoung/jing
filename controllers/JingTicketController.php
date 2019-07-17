@@ -10,10 +10,13 @@ namespace app\controllers;
 
 
 use app\lib\tools\CashUtil;
+use app\modelex\JingApplyEx;
+use app\modelex\JingResourseEx;
 use app\modelex\JingTicketEx;
 use app\modelex\JingTicketTitleEx;
 use app\modelex\JingUserEx;
 use app\models\Upload;
+use yii\helpers\Url;
 use yii\web\UploadedFile;
 
 class JingTicketController extends AppController
@@ -34,6 +37,7 @@ class JingTicketController extends AppController
         $companyTel = $this->request->post('companyTel','');
         $ticketType = $this->request->post('ticketType','');
         $personName = $this->request->post('personName','');
+        $content = $this->request->post('content','');
 
         $model = JingTicketEx::loadByFlag($flag);
         $user = $this->getUser();
@@ -56,6 +60,7 @@ class JingTicketController extends AppController
             $model->company_tel = $companyTel;
             $model->ticket_type = $ticketType;
             $model->person_name = $personName;
+            $model->ticket_content = $content;
             $model->save();
         }
 
@@ -100,9 +105,15 @@ class JingTicketController extends AppController
         return $this->respone(['code'=>1]);
     }
 
+    /**
+     * 小程序获取title信息接口，同时也获取最近一次开票信息
+     * @return string
+     */
     public function actionGetTitle() {
         $user = $this->getUser();
+        $apply = JingApplyEx::loadByUserId($user->id);
         $list = JingTicketTitleEx::getListByUid($user->id);
+        $lastTicket = JingTicketEx::getLastByUserId($user->id);
         $result = [];
         foreach($list as $title) {
             $tmp['title'] = $title->ticket_title;
@@ -117,7 +128,39 @@ class JingTicketController extends AppController
             $tmp['companyTel'] = $title->company_tel;
             $result[] = $tmp;
         }
-        return $this->respone(['code'=>1,'data'=>$result]);
+
+        foreach($result as $k => $val) {
+            if($val['title'] == $lastTicket->ticket_title) {
+                $tmp = $val;
+                unset($result[$k]);
+                array_unshift($result, $tmp);
+                break;
+            }
+        }
+        $host =  Url::base(true).'/';
+
+        return $this->respone(['code'=>1,'data'=>[
+            'list'=>$result,
+            'personName' => empty($apply)?'':$apply->person_name,
+            'imageArr'=>[
+                [
+                    'id' => JingResourseEx::NAME_SERVICE_BILL,
+                    'title' => '税款凭证',
+                    'src' => ''
+                ],
+                [
+                    'id' => JingResourseEx::NAME_AMOUNT_BILL,
+                    'title' => '公司向个体工商户打款凭证',
+                    'src' => ''
+                ],
+                [
+                    'id' => JingResourseEx::NAME_THREE_AGREEMENT,
+                    'title' => '公司与个体工商户合作协议',
+                    'src' => $lastTicket->getImagePathByType(JingResourseEx::NAME_THREE_AGREEMENT,$host)
+                ],
+                ]
+            ]
+        ]);
     }
 
     protected function map($name) {

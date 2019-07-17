@@ -119,6 +119,31 @@ class JingTicketEx extends JingTicket
     }
 
     /**
+     * @param $type
+     * @param string $host
+     * @return array
+     */
+    public function getImagePathByType($type, $host='') {
+        $arr = $this->getImageRes();
+        $path = [];
+        if(array_key_exists($type,$arr)) {
+            foreach($arr[$type] as $img) {
+                $path[] = $img->getPath($host);
+            }
+        }
+        return $path;
+    }
+
+    /**
+     * 通过用户ID获取最近一次开票
+     * @param $userId
+     * @return JingTicketEx|array|null
+     */
+    public static function getLastByUserId($userId) {
+        return self::find()->select(['*'])->where(['user_id'=>$userId])->orderBy(['dt_create'=> SORT_DESC])->one();
+    }
+
+    /**
      * @return array
      */
     public static function getStatusList() {

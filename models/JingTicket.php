@@ -13,6 +13,7 @@ use Yii;
  * @property string $ticket_code 纳税人识别号
  * @property int $ticket_type 发票类型 1 普通 2 专用
  * @property int $ticket_amount 开票金额，分
+ * @property string $ticket_content 发票内容
  * @property int $user_id 用户id
  * @property int $receive_type 接收方式 0 电子  1 纸质
  * @property string $email 电子邮箱
@@ -49,7 +50,7 @@ class JingTicket extends \yii\db\ActiveRecord
         return [
             [['ticket_type', 'ticket_amount', 'user_id', 'receive_type', 'service_fee', 'status'], 'integer'],
             [['dt_create', 'dt_update'], 'safe'],
-            [['person_name', 'company_address', 'address', 'addressee', 'service_bill', 'amount_bill', 'random_flag'], 'string', 'max' => 128],
+            [['person_name', 'ticket_content', 'company_address', 'address', 'addressee', 'service_bill', 'amount_bill', 'random_flag'], 'string', 'max' => 128],
             [['ticket_title', 'company_tel', 'addressee_mobile'], 'string', 'max' => 32],
             [['ticket_code', 'email', 'bankCode', 'bank_card'], 'string', 'max' => 64],
         ];
@@ -67,6 +68,7 @@ class JingTicket extends \yii\db\ActiveRecord
             'ticket_code' => '纳税人识别号',
             'ticket_type' => '发票类型 1 普通 2 专用',
             'ticket_amount' => '开票金额，分',
+            'ticket_content' => '发票内容',
             'user_id' => '用户id',
             'receive_type' => '接收方式 0 电子  1 纸质',
             'email' => '电子邮箱',

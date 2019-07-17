@@ -62,7 +62,7 @@ class AdminTicketController extends AdminController
         ];
         $imagePaths = [];
         $imagesConfig = [];
-        $host = \yii::$app->request->hostInfo.'/jing/web/';
+        $host = Url::base(true).'/';
         foreach($imageList as $type => $image) {
             foreach($image as $img) {
                 $imagePaths[$type][] = $host.$img->path;
