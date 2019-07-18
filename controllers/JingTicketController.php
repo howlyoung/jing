@@ -129,14 +129,17 @@ class JingTicketController extends AppController
             $result[] = $tmp;
         }
 
-        foreach($result as $k => $val) {
-            if($val['title'] == $lastTicket->ticket_title) {
-                $tmp = $val;
-                unset($result[$k]);
-                array_unshift($result, $tmp);
-                break;
+        if(!empty($lastTicket)) {
+            foreach($result as $k => $val) {
+                if($val['title'] == $lastTicket->ticket_title) {
+                    $tmp = $val;
+                    unset($result[$k]);
+                    array_unshift($result, $tmp);
+                    break;
+                }
             }
         }
+
         $host =  Url::base(true).'/';
 
         return $this->respone(['code'=>1,'data'=>[
@@ -156,7 +159,7 @@ class JingTicketController extends AppController
                 [
                     'id' => JingResourseEx::NAME_THREE_AGREEMENT,
                     'title' => '公司与个体工商户合作协议',
-                    'src' => $lastTicket->getImagePathByType(JingResourseEx::NAME_THREE_AGREEMENT,$host)
+                    'src' => !empty($lastTicket)?$lastTicket->getImagePathByType(JingResourseEx::NAME_THREE_AGREEMENT,$host):''
                 ],
                 ]
             ]
