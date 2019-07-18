@@ -46,6 +46,13 @@ $this->registerJsFile("@web/js/zoomify.min.js",['position'=>\yii\web\View::POS_B
     </div>
 
     <div class="row show-grid">
+        <label class="col-sm-2 control-label" for="dishesName">金额</label>
+        <div class="col-xs-4">
+            <input name="ticketAmount" class="form-control" value="<?php echo empty($model)?'': \app\lib\tools\CashUtil::toReadFmt($model->ticket_amount);?>" id="dishesName" />
+        </div>
+    </div>
+
+    <div class="row show-grid">
         <label class="col-sm-2 control-label" for="dishesName">发票内容</label>
         <div class="col-sm-10">
             <textarea class="form-control" rows="3" cols="20" name="ticketContent" id="sellPoint"><?php echo empty($model)?'':$model->ticket_content;?></textarea>

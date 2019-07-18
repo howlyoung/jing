@@ -9,6 +9,7 @@
 namespace app\controllers;
 
 
+use app\lib\tools\CashUtil;
 use app\lib\tools\ZipFile;
 use app\modelex\JingApplyEx;
 use app\modelex\JingResourseEx;
@@ -97,6 +98,7 @@ class AdminTicketController extends AdminController
         $model->company_address = $request->post('companyAddress','');
         $model->company_tel = $request->post('companyTel','');
         $model->ticket_content = $request->post('ticketContent','');
+        $model->ticket_amount = CashUtil::toSaveFmt($request->post('ticketAmount',0));
         $model->save();
 
         $typeList = [
