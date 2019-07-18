@@ -46,6 +46,13 @@ $this->registerJsFile("@web/js/zoomify.min.js",['position'=>\yii\web\View::POS_B
     </div>
 
     <div class="row show-grid">
+        <label class="col-sm-2 control-label" for="dishesName">发票内容</label>
+        <div class="col-sm-10">
+            <textarea class="form-control" rows="3" cols="20" name="ticketContent" id="sellPoint"><?php echo empty($model)?'':$model->ticket_content;?></textarea>
+        </div>
+    </div>
+
+    <div class="row show-grid">
         <label class="col-sm-2 control-label" for="dishesName">快递地址</label>
         <div class="col-sm-10">
             <textarea class="form-control" rows="3" cols="20" name="address" id="sellPoint"><?php echo empty($model)?'':$model->address;?></textarea>

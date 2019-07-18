@@ -96,6 +96,7 @@ class AdminTicketController extends AdminController
         $model->bank_card = $request->post('bankCard','');
         $model->company_address = $request->post('companyAddress','');
         $model->company_tel = $request->post('companyTel','');
+        $model->ticket_content = $request->post('ticketContent','');
         $model->save();
 
         $typeList = [

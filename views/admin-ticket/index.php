@@ -77,6 +77,12 @@ $this->registerCss($cssString);
                 }
             ],
             [
+                'attribute' => '发票内容',
+                'value' => function($data) {
+                    return $data->ticket_content;
+                }
+            ],
+            [
                 'attribute' => '金额',
                 'value' => function($data) {
                     return \app\lib\tools\CashUtil::toReadFmt($data->ticket_amount);
